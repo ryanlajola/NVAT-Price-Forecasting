@@ -1,0 +1,100 @@
+---
+title: "Carrots Price Forecasting"
+author: "Bessie Dizon"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Background 
+
+```{r}
+# load the forecast package
+library(forecast)
+# load the ggplot2 package
+library(ggplot2)
+# load the readr package
+library(readr)
+# load the zoo package
+library(zoo)
+
+```
+
+```{r}
+carrot <- read_csv("/cloud/project/CSV/carrot.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+carrot_ts <- ts(carrot[,2], freq=365.25/7, start=2017+302/365.25)
+carrot_ts %>%
+  autoplot()
+```
+
+```{r}
+c_decomp <- decompose(na.locf(carrot_ts), type="additive")
+autoplot(c_decomp)
+```
+
+```{r}
+training_carrot <- subset(carrot_ts, end=length(carrot_ts)-8)
+test_carrot <- subset(carrot_ts, start=length(carrot_ts)-8)
+fc_training_carrot <- forecast(training_carrot)
+fc_training_carrot %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_carrot)
+
+```
+
+```{r}
+fc_training_carrot
+```
+
+```{r}
+fc_carrot<-forecast(carrot_ts)
+fc_carrot %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_carrot
+```
+
+```{r}
+tail(carrot_ts)
+min(carrot_ts)
+max(carrot_ts)
+which.min(carrot_ts)
+```
+
+```{r}
+bestfit_carrot <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_carrot <- auto.arima(carrot, xreg=fourier(carrot, K=i), seasonal=FALSE)
+  if(fit_carrot$aicc < bestfit_carrot$aicc)
+    bestfit_carrot <- fit_carrot_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_carrot)
+```
