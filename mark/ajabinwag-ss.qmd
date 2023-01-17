@@ -1,0 +1,82 @@
+---
+title: "Squash(Suprema) Price Forecasting"
+author: "Aepril Jean Binwag"
+format: html
+editor: visual
+---
+
+## BACKGROUND
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library (zoo)
+```
+
+```{r}
+squash_suprema <- read_csv("/Users/acer/Documents/R projects/Sec math 17/NVAT-Price-Forecasting/CSV/squash-suprema.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+squash_suprema_ts<- ts(squash_suprema[,2], freq=365.25/7, start=2017+302/365.25)
+squash_suprema_ts %>%
+  autoplot()
+```
+
+```{r}
+ss_decomp <- decompose(na.locf(squash_suprema_ts), type="additive")
+autoplot(ss
+```
+
+```{r}
+training_ss <- subset(squash_suprema_ts, end=length(squash_suprema_ts)-8)
+test_ss <- subset(squash_suprema_ts, start=length(squash_suprema_ts)-8)
+fc_training_ss <- forecast(training_ss)
+fc_training_ss %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_ss)
+```
+
+```{_decomp)}
+```
+
+```{r}
+fc_training_ss
+```
+
+```{r}
+fc_ss<-forecast(squash_suprema_ts)
+fc_ss %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+tail(squash_suprema_ts)
+min(squash_suprema_ts)
+max(squash_suprema_ts)
+which.min(squash_suprema_ts
+```
+
+```{r}
+bestfit_ss <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ss <- auto.arima(squash_suprema_ts, xreg=fourier(,squash_suprema_ts
+```
+
+```{K=i), seasonal=FALSE)}
+  if(fit_ss$aicc < bestfit_ss$aicc)
+    bestfit_ss <- fit_ss
+  else break;
+}
+```
+
+```{)}
+```
+
+```{r}
+summary(bestfit_ss)
+```
+
+```{r}
+summary(bestfit_tugo)
+```
