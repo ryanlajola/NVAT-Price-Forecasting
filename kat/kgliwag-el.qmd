@@ -1,0 +1,91 @@
+---
+title: "Eggplant Long Price Forecasting"
+author: "Katherine liwag"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+library(forecast) #loads the forecast package
+library(ggplot2) #loads the ggplot2 package
+library(readr) #loads the readr package
+library(zoo) #loads the zoo package
+
+```
+
+```{r}
+eggplant_long <- read_csv("/cloud/project/CSV/eggplant long.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+eggplant_long_ts <- ts(eggplant_long[,2], freq=365.25/7, start=2017+295/365.25)
+eggplant_long_ts %>%
+  autoplot()
+```
+
+```{r}
+el_decomp <- decompose(na.locf(eggplant_long_ts),type="additive")
+autoplot(el_decomp)
+```
+
+```{r}
+training_el <- subset(eggplant_long_ts, end=length(eggplant_long_ts)-8)
+test_el <- subset(eggplant_long_ts, start=length(eggplant_long_ts)-8)
+fc_training_el <- forecast(training_el)
+fc_training_el %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_el)
+```
+
+```{r}
+training_el <- subset(eggplant_long_ts, end=length(eggplant_long_ts)-8)
+test_el <- subset(eggplant_long_ts, start=length(eggplant_long_ts)-8)
+fc_training_el <- forecast(training_el)
+fc_training_el %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_el)
+```
+
+```{r}
+tail(eggplant_long_ts)
+min(eggplant_long_ts)
+max(eggplant_long_ts)
+which.min(eggplant_long_ts)
+```
+
+```{r}
+bestfit_el <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_el <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=i), seasonal=FALSE)
+  if(fit_el$aicc < bestfit_el$aicc)
+    bestfit_el <- fit_el
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_el)
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# 
