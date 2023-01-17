@@ -1,0 +1,80 @@
+---
+title: "Tomato diamante prices Forecasting"
+author: "Romilyn C. Aglipay"
+format: html
+editor: visual
+---
+
+## BACKGROUND 
+
+##  
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+
+```
+
+Visualize the Tomato Diamante
+
+```{r}
+tomato_diamante <- read_csv("/Users/ROMILYN AGLIPAY/OneDrive - Nueva Vizcaya State University/Documents/R PROJECT/SEC MATH 17/NVAT-Price-Forecasting/CSV/tomato-diamante.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tomato_diamante_ts <- ts(tomato_diamante[,2], freq=365.25/7, start=2017+302/365.25)
+tomato_diamante_ts  %>%
+  autoplot()
+```
+
+DECOMPOSE THE DATA
+
+```{r}
+td_decomp <- decompose(na.locf(tomato_diamante_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_td <- subset(tomato_diamante_ts, end=length(tomato_diamante_ts)-8)
+test_td <- subset(tomato_diamante_ts, start=length(tomato_diamante_ts)-8)
+fc_training_td <- forecast(training_td)
+fc_training_td %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_td)
+```
+
+```{r}
+fc_training_td
+```
+
+```{r}
+fc_td<-forecast(tomato_diamante_ts)
+fc_td %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+fc_td
+```
+
+```{r}
+tail(tomato_diamante_ts)
+min(tomato_diamante_ts)
+max(tomato_diamante_ts)
+which.min(tomato_diamante_ts)
+```
+
+```{r}
+bestfit_td <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_td <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=i), seasonal=FALSE)
+  if(fit_td$aicc < bestfit_td$aicc)
+    bestfit_td <- fit_td
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_td)
+```
