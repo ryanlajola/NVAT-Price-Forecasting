@@ -1,0 +1,71 @@
+---
+title: "Sayote Price Forecasting"
+author: "Gretchen Ollani"
+format: html
+editor: visual
+---
+
+## BACKGROUND
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)# load the forecast packages
+library(forecast)
+# load the ggplot2 packages
+library(ggplot2)
+# load the readr packages
+library(readr)
+# load the zoo package
+library(zoo)
+```
+
+```{r}
+sayote_ <- read_csv("/cloud/project/CSV/sayote.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+sayote_ts <- ts(sayote_[,2], freq=365.25/7, start=2017+295/365.25)
+sayote_ts %>%
+  autoplot()
+```
+
+```{r}
+sayote_decomp <- decompose(na.locf(sayote_ts), type="additive")
+autoplot(sayote_decomp)
+```
+
+```{r}
+training_s <- subset(sayote_ts, end=length(sayote_ts)-8)
+test_sayote_ts <- subset(sayote_ts, start=length(sayote_ts)-8)
+fc_training_sayote<-forecast(training_s)
+fc_training_sayote %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_sayote_ts)
+```
+
+```{r}
+fc_training_sayote
+```
+
+```{r}
+fc_sayote<-forecast(sayote_ts)
+fc_sayote %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+## Running Cod
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
