@@ -1,0 +1,68 @@
+---
+title: "beans-pencil"
+author: "Nestor Rbuya"
+format: html
+editor: visual
+---
+
+# BACKGROUND
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)# load the forecast packages
+library(forecast)
+# load the ggplot2 packages
+library(ggplot2)
+# load the readr packages
+library(readr)
+# load the zoo package
+library(zoo)
+```
+
+```{r}
+beans_pencil <- read_csv("/cloud/project/CSV/beans-pencil.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+beans_pencil <- ts(beans_pencil[,2], freq=365.25/7, start=2017+309/365.25)
+beans_pencil %>%
+  autoplot()
+```
+
+```{r}
+fc_training_bp
+```
+
+```{r}
+bp_decomp <- decompose(na.locf(beans_pencil), type="additive")
+autoplot(bp_decomp)
+```
+
+```{r}
+training_bp <- subset(beans_pencil, end=length(beans_pencil)-8)
+test_bp <- subset(beans_pencil, start=length(beans_pencil)-8)
+fc_training_bp<-forecast(training_bp)
+fc_training_bp %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_bp)
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed)
