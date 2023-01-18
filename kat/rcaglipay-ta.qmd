@@ -1,0 +1,75 @@
+---
+title: "tomato avatar prices forceasting"
+author: "Romilyn C. Aglipay"
+format: html
+editor: visual
+---
+
+## BACKGROUND 
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+
+```
+
+```{r}
+tomato_avatar <- read_csv("/Users/ROMILYN AGLIPAY/OneDrive - Nueva Vizcaya State University/Documents/R PROJECT/SEC MATH 17/NVAT-Price-Forecasting/CSV/tomato-avatar.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tomato_avatar_ts <- ts(tomato_avatar[,2], freq=365.25/7, start=2017+302/365.25)
+tomato_avatar_ts  %>%
+  autoplot()
+```
+
+```{r}
+ta_decomp <- decompose(na.locf(tomato_avatar_ts), type="additive")
+autoplot(ta_decomp)
+```
+
+```{r}
+training_ta <- subset(tomato_avatar_ts, end=length(tomato_avatar_ts)-8)
+test_ta <- subset(tomato_avatar_ts, start=length(tomato_avatar_ts)-8)
+fc_training_ta <- forecast(training_ta)
+fc_training_ta %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_ta)
+```
+
+```{r}
+fc_training_ta
+
+```
+
+```{r}
+fc_ta<-forecast(tomato_avatar_ts)
+fc_ta %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+fc_ta
+```
+
+```{r}
+tail(tomato_avatar_ts)
+min(tomato_avatar_ts)
+max(tomato_avatar_ts)
+which.min(tomato_avatar_ts)
+```
+
+```{r}
+bestfit_ta <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ta <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=i), seasonal=FALSE)
+  if(fit_ta$aicc < bestfit_ta$aicc)
+    bestfit_ta <- fit_ta
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ta)
+```
