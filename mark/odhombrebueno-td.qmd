@@ -20,10 +20,14 @@ library(zoo)
 ```
 
 ```{r}
+# read the csv file
 tomato_diamante <- read_csv("/cloud/project/CSV/tomato-diamante.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+# create a time series object from the data
 tomato_diamante_ts <- ts(tomato_diamante[,2], freq=365.25/7, start=2017+302/365.25)
+# plot the time series
 tomato_diamante_ts %>%
   autoplot()
+
 ```
 
 ```{r}
