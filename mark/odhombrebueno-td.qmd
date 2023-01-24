@@ -1,0 +1,124 @@
+---
+title: "Tomato Price Forecasting"
+author: "Orville Hombrebueno"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+# load the forecast package
+library(forecast)
+# load the ggplot2 package
+library(ggplot2)
+# load the readr package
+library(readr)
+# load the zoo package
+library(zoo)
+
+```
+
+```{r}
+tomato_diamante <- read_csv("/cloud/project/CSV/tomato-diamante.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tomato_diamante_ts <- ts(tomato_diamante[,2], freq=365.25/7, start=2017+302/365.25)
+tomato_diamante_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(tomato_diamante_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_td <- subset(tomato_diamante_ts, end=length(tomato_diamante_ts)-16)
+test_td <- subset(tomato_diamante_ts, start=length(tomato_diamante_ts)-16)
+fc_training_td <- forecast(training_td)
+fc_training_td %>%
+  forecast(h=20) %>%
+  autoplot() +autolayer(test_td)
+```
+
+```{r}
+fc_training_td
+```
+
+```{r}
+fc_td<-forecast(tomato_diamante_ts)
+fc_td %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_td
+```
+
+```{r}
+tail(tomato_diamante_ts)
+min(tomato_diamante_ts)
+max(tomato_diamante_ts)
+which.min(tomato_diamante_ts)
+```
+
+```{r}
+bestfit_td <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_td <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=i), seasonal=FALSE)
+  if(fit_td$aicc < bestfit_td$aicc)
+    bestfit_td <- fit_td
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_td)
+```
+
+```{r}
+fc_arima_td <- forecast(bestfit_td, xreg=fourier(tomato_diamante_ts, K=1, h=26))
+plot(fc_arima_td)
+```
+
+```{r}
+fc_arima_td
+```
+
+```{r}
+fit_td1 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=1), seasonal=FALSE)
+fit_td2 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=2), seasonal=FALSE)
+fit_td3 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=3), seasonal=FALSE)
+fit_td4 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=4), seasonal=FALSE)
+fit_td5 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=5), seasonal=FALSE)
+fit_td6 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=6), seasonal=FALSE)
+fit_td7 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=7), seasonal=FALSE)
+fit_td8 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=8), seasonal=FALSE)
+fit_td9 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=9), seasonal=FALSE)
+fit_td10 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=10), seasonal=FALSE)
+fit_td11 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=11), seasonal=FALSE)
+fit_td12 <- auto.arima(tomato_diamante_ts, xreg=fourier(tomato_diamante_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_td1),AIC(fit_td2),AIC(fit_td3),AIC(fit_td4),AIC(fit_td5),AIC(fit_td6),AIC(fit_td7),AIC(fit_td8),AIC(fit_td9),AIC(fit_td10),AIC(fit_td11),AIC(fit_td12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_td <- forecast(fit_td1, xreg=fourier(tomato_diamante_ts, K=1, h=26))
+plot(fc_arima_man_td)
+```
+
+```{r}
+fc_arima_man_td
+```
+
+```{r}
+accuracy(fc_td)
+```
+
+```{r}
+accuracy(fc_arima_man_td)
+```
