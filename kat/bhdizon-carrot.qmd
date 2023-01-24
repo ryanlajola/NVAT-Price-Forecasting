@@ -5,28 +5,7 @@ format: html
 editor: visual
 ---
 
-## 
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
-
-# Background 
+# Background
 
 ```{r}
 # load the forecast package
@@ -88,13 +67,59 @@ which.min(carrot_ts)
 bestfit_carrot <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_carrot <- auto.arima(carrot, xreg=fourier(carrot, K=i), seasonal=FALSE)
+  fit_carrot <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=i), seasonal=FALSE)
   if(fit_carrot$aicc < bestfit_carrot$aicc)
-    bestfit_carrot <- fit_carrot_ts
+    bestfit_carrot <- fit_carrot
   else break;
 }
 ```
 
 ```{r}
 summary(bestfit_carrot)
+```
+
+```{r}
+fc_arima_carrot <- forecast(bestfit_carrot, xreg=fourier(carrot_ts, K=1, h=26))
+plot(fc_arima_carrot)
+```
+
+```{r}
+fc_arima_carrot
+```
+
+```{r}
+fit_carrot1 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=1), seasonal=FALSE)
+fit_carrot2 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=2), seasonal=FALSE)
+fit_carrot3 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=3), seasonal=FALSE)
+fit_carrot4 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=4), seasonal=FALSE)
+fit_carrot5 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=5), seasonal=FALSE)
+fit_carrot6 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=6), seasonal=FALSE)
+fit_carrot7 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=7), seasonal=FALSE)
+fit_carrot8 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=8), seasonal=FALSE)
+fit_carrot9 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=9), seasonal=FALSE)
+fit_carrot10 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=10), seasonal=FALSE)
+fit_carrot11 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=11), seasonal=FALSE)
+fit_carrot12 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_carrot1),AIC(fit_carrot2),AIC(fit_carrot3),AIC(fit_carrot4),AIC(fit_carrot5),AIC(fit_carrot6),AIC(fit_carrot7),AIC(fit_carrot8),AIC(fit_carrot9),AIC(fit_carrot10),AIC(fit_carrot11),AIC(fit_carrot12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_carrot <- forecast(fit_carrot5, xreg=fourier(carrot_ts, K=5, h=26))
+plot(fc_arima_man_carrot )
+```
+
+```{r}
+fc_arima_man_carrot
+```
+
+```{r}
+accuracy(fc_carrot)
+```
+
+```{r}
+accuracy(fc_arima_man_carrot)
 ```

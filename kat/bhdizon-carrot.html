@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Bessie Dizon">
+
+<title>Carrots Price Forecasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="bhdizon-carrot_files/libs/clipboard/clipboard.min.js"></script>
+<script src="bhdizon-carrot_files/libs/quarto-html/quarto.js"></script>
+<script src="bhdizon-carrot_files/libs/quarto-html/popper.min.js"></script>
+<script src="bhdizon-carrot_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="bhdizon-carrot_files/libs/quarto-html/anchor.min.js"></script>
+<link href="bhdizon-carrot_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="bhdizon-carrot_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="bhdizon-carrot_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="bhdizon-carrot_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="bhdizon-carrot_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Carrots Price Forecasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Bessie Dizon </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the forecast package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the ggplot2 package</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load the readr package</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load the zoo package</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>carrot <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/carrot.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following named parsers don't match the column names: Week</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>carrot_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(carrot[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">302</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>carrot_ts <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>c_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(carrot_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(c_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>training_carrot <span class="ot">&lt;-</span> <span class="fu">subset</span>(carrot_ts, <span class="at">end=</span><span class="fu">length</span>(carrot_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>test_carrot <span class="ot">&lt;-</span> <span class="fu">subset</span>(carrot_ts, <span class="at">start=</span><span class="fu">length</span>(carrot_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fc_training_carrot <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_carrot)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fc_training_carrot <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fc_training_carrot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast        Lo 80     Hi 80       Lo 95     Hi 95
+2022.580      34.503099  25.81567102  43.19053   21.216824  47.78937
+2022.599      30.907811  19.14551589  42.67011   12.918933  48.89669
+2022.618      23.057269   8.87165106  37.24289    1.362238  44.75230
+2022.637      18.970274   2.71875288  35.22180   -5.884283  43.82483
+2022.656      22.037709   3.95478526  40.12063   -5.617736  49.69315
+2022.676      19.645968  -0.09921708  39.39115  -10.551686  49.84362
+2022.695      20.424823  -0.85315854  41.70280  -12.117042  52.96669
+2022.714      25.651355   2.94380817  48.35890   -9.076841  60.37955
+2022.733      24.516987   0.46469301  48.56928  -12.267823  61.30180
+2022.752      23.687365  -1.63837423  49.01310  -15.045011  62.41974
+2022.771      28.050666   1.51251971  54.58881  -12.535927  68.63726
+2022.791      27.194250  -0.50328460  54.89178  -15.165474  69.55397
+2022.810      25.217982  -3.59232108  54.02829  -18.843575  69.27954
+2022.829      25.498538  -4.38312518  55.38020  -20.201522  71.19860
+2022.848      24.064512  -6.85140550  54.98043  -23.217304  71.34633
+2022.867      25.030624  -6.88605086  56.94730  -23.781718  73.84297
+2022.886      20.159713 -12.72727982  53.04671  -30.136602  70.45603
+2022.906      19.316168 -14.51332401  53.14566  -32.421575  71.05391
+2022.925      17.075801 -17.67063279  51.82224  -36.064284  70.21589
+2022.944      11.950402 -23.68939094  47.59020  -42.555958  66.45676
+2022.963      11.258925 -25.25237576  47.77022  -44.580291  67.09814
+2022.982      11.777266 -25.58521792  49.13975  -45.363722  68.91826
+2023.001       9.160075 -29.03462916  47.35478  -49.253684  67.57383
+2023.021       7.741012 -31.26816146  46.75019  -51.918370  67.40039
+2023.040      12.744669 -27.06231282  52.55165  -48.134856  73.62419
+2023.059      13.632224 -26.95688703  54.22134  -48.443465  75.70791
+2023.078      12.133906 -29.22254675  53.49036  -51.115330  75.38314
+2023.097      10.182363 -31.92745008  52.29218  -54.219038  74.58376
+2023.116       8.135048 -34.71488207  50.98498  -57.398265  73.66836
+2023.136      10.670135 -32.90734407  54.24761  -55.975868  77.31614
+2023.155       8.688917 -35.60416212  52.98200  -59.051502  76.42934
+2023.174       8.017215 -36.98008566  53.01452  -60.800218  76.83465
+2023.193       9.998483 -35.69218606  55.68915  -59.879365  79.87633
+2023.212      12.888301 -33.48537083  59.26197  -58.034110  83.81071
+2023.231      10.941219 -36.10554028  57.98798  -61.010590  82.89303
+2023.251      16.022146 -31.68820662  63.73250  -56.944542  88.98883
+2023.270      22.934288 -25.43055380  71.29913  -51.033355  96.90193
+2023.289      33.393249 -15.61734346  82.40384  -41.561984 108.34848
+2023.308      40.110637  -9.53730648  89.75858  -35.819340 116.04062
+2023.327      38.046596 -12.23062096  88.32381  -38.845772 114.93896
+2023.346      37.453765 -13.44494533  88.35247  -40.389095 115.29662
+2023.366      29.993561 -21.51914526  81.50627  -48.788325 108.77545
+2023.385      26.110339 -26.00913043  78.22981  -53.599511 105.82019
+2023.404      23.194203 -29.52504661  75.91345  -57.432931 103.82134
+2023.423      25.900012 -27.41226963  79.21229  -55.634087 107.43411
+2023.442      25.251831 -28.64695933  79.15062  -57.179255 107.68292
+2023.461      31.678441 -22.80054387  86.15743  -51.639976 114.99686
+2023.480      29.083064 -25.97000151  84.13613  -55.113334 113.27946
+2023.500      28.391570 -27.22965000  84.01279  -56.673745 113.45689
+2023.519      33.212297 -22.97133308  89.39593  -52.713151 119.13775
+2023.538      30.550715 -26.18975138  87.29118  -56.226340 117.32777
+2023.557      33.427237 -23.86465375  90.71913  -54.193148 121.04762
+2023.576      34.503099 -23.33495837  92.34116  -53.952576 122.95877
+2023.595      30.907811 -27.47130392  89.28693  -58.375341 120.19096
+2023.615      23.057269 -35.85793440  81.97247  -67.045759 113.16030
+2023.634      18.970274 -40.47618410  78.41673  -71.945238 109.88579
+2023.653      22.037709 -37.93529827  82.01072  -69.683091 113.75851
+2023.672      19.645968 -40.84900573  80.14094  -72.873110 112.16505
+2023.691      20.424823 -40.58765093  81.43730  -72.885704 113.73535
+2023.710      25.651355 -35.87426701  87.17698  -68.443964 119.74667
+2023.730      24.516987 -37.51753804  86.55151  -70.356632 119.39061
+2023.749      23.687365 -38.85192327  86.22665  -71.958222 119.33295
+2023.768      28.050666 -34.98934241  91.09068  -68.360707 124.46204
+2023.787      27.194250 -36.34253396  90.73103  -69.976876 124.36538
+2023.806      25.217982 -38.81172209  89.24769  -72.707000 123.14297
+2023.825      25.498538 -39.02032200  90.01740  -73.174543 124.17162
+2023.845      24.064512 -40.93982194  89.06885  -75.351038 123.48006
+2023.864      25.030624 -40.45558529  90.51683  -75.121890 125.18314
+2023.883      20.159713 -45.80485135  86.12428  -80.724383 121.04381
+2023.902      19.316168 -47.12330846  85.75564  -82.294243 120.92658
+2023.921      17.075801 -49.83521540  83.98682  -85.255768 119.40737
+2023.940      11.950402 -55.42885515  79.32966  -91.097280 114.99808
+2023.960      11.258925 -56.58534217  79.10319  -92.499928 115.01778
+2023.979      11.777266 -56.52884397  80.08338  -92.687915 116.24245
+2023.998       9.160075 -59.60477730  77.92493  -96.006691 114.32684
+2024.017       7.741012 -61.47954206  76.96157  -98.122690 113.60471
+2024.036      12.744669 -56.92860634  82.41794  -93.811410 119.30075
+2024.055      13.632224 -56.49084918  83.75530  -93.611762 120.87621
+2024.075      12.133906 -58.43609960  82.70391  -95.793604 120.06141
+2024.094      10.182363 -60.83176135  81.19649  -98.424368 118.78909
+2024.113       8.135048 -63.32043453  79.59053 -101.146682 117.41678
+2024.132      10.670135 -61.22399657  82.56427  -99.282451 120.62272
+2024.151       8.688917 -63.64120346  81.01904 -101.930456 119.30829
+2024.170       8.017215 -64.74628238  80.78071 -103.264951 119.29938
+2024.190       9.998483 -63.19582496  83.19279 -101.942551 121.93952
+2024.209      12.888301 -60.73429694  86.51090  -99.707746 125.48435
+2024.228      10.941219 -63.10719092  84.98963 -102.306052 124.18849
+2024.247      16.022146 -58.44964197  90.49393  -97.872625 129.91692
+2024.266      22.934288 -51.95848452  97.82706  -91.604324 137.47290
+2024.285      33.393249 -41.91815561 108.70465  -81.785605 148.57210
+2024.305      40.110637 -35.61708413 115.83836  -75.704918 155.92619
+2024.324      38.046596 -38.09516678 114.18836  -78.402181 154.49537
+2024.343      37.453765 -39.09979925 114.00733  -79.624808 154.53234
+2024.362      29.993561 -46.96960161 106.95672  -87.711439 147.69856
+2024.381      26.110339 -51.26025353 103.48093  -92.217771 144.43845
+2024.400      23.194203 -54.58168513 100.97009  -95.753753 142.14216
+2024.420      25.900012 -52.27906976 104.07909  -93.664576 145.46460
+2024.439      25.251831 -53.32837689 103.83204  -94.926226 145.42989
+2024.458      31.678441 -47.30085548 110.65774  -89.109970 152.46685
+2024.477      29.083064 -50.29331487 108.45944  -92.312631 150.47876
+2024.496      28.391570 -51.37991347 108.16305  -93.608386 150.39153
+2024.515      33.212297 -46.95234450 113.37694  -89.388943 155.81354
+2024.535      30.550715 -50.00516626 111.10660  -92.648874 153.75030
+2024.554      33.427237 -47.51799289 114.37247  -90.367809 157.22228</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fc_carrot<span class="ot">&lt;-</span><span class="fu">forecast</span>(carrot_ts)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fc_carrot <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fc_carrot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80     Hi 80        Lo 95     Hi 95
+2022.733       27.96032  19.2438282  36.67681   14.6295963  41.29104
+2022.752       27.14305  15.3452070  38.94090    9.0998036  45.18631
+2022.771       31.51871  17.2919368  45.74549    9.7607357  53.27669
+2022.791       30.67464  14.3769973  46.97228    5.7495459  55.59974
+2022.810       28.68820  10.5546632  46.82174    0.9553485  56.42105
+2022.829       28.97924   9.1793155  48.77917   -1.3021334  59.26062
+2022.848       27.55571   6.2191380  48.89227   -5.0757590  60.18717
+2022.867       28.53776   5.7680153  51.30750   -6.2855578  63.36107
+2022.886       23.68278  -0.4351156  47.80069  -13.2023609  60.56793
+2022.906       22.85560  -2.5389835  48.25019  -15.9820664  61.69328
+2022.925       20.63160  -5.9784898  47.24170  -20.0650226  61.32823
+2022.944       15.52282 -12.2496325  43.29527  -26.9514805  57.99712
+2022.963       14.84796 -14.0401226  43.73603  -29.3325475  59.02846
+2022.982       15.38303 -14.5791619  45.34523  -30.4401892  61.20625
+2023.001       12.78257 -18.2165388  43.78169  -34.6264783  60.19163
+2023.021       11.38020 -20.6222486  43.38266  -37.5633242  60.32373
+2023.040       16.40056 -16.5747238  49.37583  -34.0307820  66.83189
+2023.059       17.31702 -16.6031958  51.23723  -34.5594732  69.19351
+2023.078       15.84761 -18.9919227  50.68714  -37.4348569  69.13008
+2023.097       13.92468 -21.8105246  49.65989  -40.7276002  68.57696
+2023.116       11.90598 -24.7029913  48.51496  -44.0826114  67.89458
+2023.136       14.46942 -22.9929439  51.93179  -42.8243232  71.76317
+2023.155       12.51656 -25.7801895  50.81331  -46.0532635  71.08638
+2023.174       11.87304 -27.2402981  50.98637  -47.9456466  71.69172
+2023.193       13.88248 -26.0307332  53.79570  -47.1595141  74.92448
+2023.212       16.80054 -23.8968392  57.49792  -45.4407319  79.04182
+2023.231       14.88170 -26.5850179  56.34842  -48.5361737  78.29958
+2023.251       19.99273 -22.2293138  62.21477  -44.5803130  84.56577
+2023.270       26.93497 -16.0291179  69.89906  -38.7729322  92.64287
+2023.289       37.42395  -6.2695800  81.11749  -29.3995393 104.24745
+2023.308       44.17136  -0.2396343  88.58236  -23.7493971 112.09213
+2023.327       42.13739  -2.9796653  87.25445  -26.8631925 111.13798
+2023.346       41.57463  -4.2376049  87.38686  -28.4891368 111.63840
+2023.366       34.14456 -12.3524614  80.64158  -36.9664966 105.25561
+2023.385       30.29147 -16.8803960  77.46333  -41.8516726 102.43461
+2023.404       27.40543 -20.4317650  75.24262  -45.7552438 100.56609
+2023.423       30.14133 -18.3520607  78.63472  -44.0229101 104.30557
+2023.442       29.52624 -19.6145849  78.66707  -45.6281667 104.68065
+2023.461       35.98594 -13.7938979  85.76579  -40.1457548 112.11764
+2023.480       33.42369 -16.9870729  83.83445  -43.6729172 110.52029
+2023.500       32.76531 -18.2685643  83.79919  -45.2842675 110.81489
+2023.519       37.61910 -14.0303838  89.26857  -41.3719664 116.61016
+2023.538       34.99057 -17.2672614  87.24840  -44.9308850 114.91202
+2023.557       37.90007 -14.9591087  90.75925  -42.9410671 118.74121
+2023.576       35.06617 -18.3875957  88.51993  -46.6843080 116.81664
+2023.595       31.60706 -22.4347412  85.64887  -51.0427444 114.25687
+2023.615       24.14781 -30.4757034  78.77133  -59.3916467 107.68727
+2023.634       21.45089 -33.7482083  76.64999  -62.9688466 105.87063
+2023.653       25.32995 -30.4387944  81.09869  -59.9609832 110.62088
+2023.672       21.97407 -34.3585578  78.30669  -64.1792479 108.12738
+2023.691       19.94962 -36.9412933  76.84054  -67.0575262 106.95678
+2023.710       23.17972 -34.2640616  80.62351  -64.6729652 111.03241
+2023.730       27.96032 -30.0310638  85.95170  -60.7298478 116.65049
+2023.749       27.14305 -31.3908034  85.67691  -62.3767561 116.66287
+2023.768       31.51871 -27.5526368  90.59007  -58.8231212 121.86055
+2023.787       30.67464 -28.9293566  90.27864  -60.4818069 121.83109
+2023.806       28.68820 -31.4437253  88.82013  -63.2756440 120.65205
+2023.825       28.97924 -31.6760156  89.63450  -63.7849703 121.74346
+2023.845       27.55571 -33.6184098  88.72982  -66.0020307 121.11344
+2023.864       28.53776 -33.1508519  90.22637  -65.8068289 122.88234
+2023.883       23.68278 -38.5160612  85.88163  -71.4421414 118.80771
+2023.902       22.85560 -39.8493268  85.56054  -73.0433125 118.75452
+2023.921       20.63160 -42.5753609  83.83857  -76.0351071 117.29832
+2023.940       15.52282 -48.1822230  79.22786  -81.9056353 112.95127
+2023.960       14.84796 -49.3512997  79.04721  -83.3363326 113.03224
+2023.979       15.38303 -49.3066611  80.07272  -83.5513161 114.31738
+2023.998       12.78257 -52.3938656  77.95902  -86.8961890 112.46134
+2024.017       11.38020 -54.2793744  77.03978  -89.0374562 111.79787
+2024.036       16.40056 -49.7386341  82.53974  -84.7506060 117.55172
+2024.055       17.31702 -49.2983267  83.93237  -84.5623607 119.19640
+2024.075       15.84761 -51.2405142  82.93573  -86.7548215 118.45004
+2024.094       13.92468 -53.6329107  81.48227  -89.3957399 117.24510
+2024.113       11.90598 -56.1178390  79.92980  -92.1274749 115.93944
+2024.132       14.46942 -54.0174535  82.95630  -90.2722160 119.21106
+2024.151       12.51656 -56.4302631  81.46338  -92.9285060 117.96162
+2024.170       11.87304 -57.5306830  81.27676  -94.2707928 118.01687
+2024.190       13.88248 -55.9751443  83.74011  -92.9555390 120.72051
+2024.209       16.80054 -53.5080643  87.10915  -90.7271927 124.32828
+2024.228       14.88170 -55.8750091  85.63841  -93.3313496 123.09475
+2024.247       19.99273 -51.2092671  91.19472  -88.9013269 128.88678
+2024.266       26.93497 -44.7095425  98.57948  -82.6358565 136.50580
+2024.285       37.42395 -34.6603597 109.50827  -72.8194900 147.66740
+2024.305       44.17136 -28.3500815 116.69281  -66.7406162 155.08335
+2024.324       42.13739 -30.8185687 115.09335  -69.4391213 153.71390
+2024.343       41.57463 -31.8132725 114.96253  -70.6624810 153.81174
+2024.362       34.14456 -39.6727581 107.96187  -78.7492847 147.03840
+2024.381       30.29147 -43.9527780 104.53571  -83.2553079 143.83824
+2024.400       27.40543 -47.2633105 102.07416  -86.7905516 141.60140
+2024.420       30.14133 -44.9494975 105.23215  -84.7001794 144.98284
+2024.439       29.52624 -45.9843153 105.03680  -85.9571891 145.00967
+2024.458       35.98594 -39.9420215 111.91391  -80.1358590 152.10775
+2024.477       33.42369 -42.9194072 109.76678  -83.3330002 150.18037
+2024.496       32.76531 -43.9906635 109.52129  -84.6228235 150.15345
+2024.515       37.61910 -39.5475556 114.78575  -80.3971131 155.63530
+2024.535       34.99057 -42.5845832 112.56572  -83.6503874 153.63152
+2024.554       37.90007 -40.0814416 115.88158  -81.3623597 157.16250
+2024.573       35.06617 -43.3195978 113.45193  -84.8145147 154.94685
+2024.592       31.60706 -47.1808796 110.39501  -88.8886973 152.10282
+2024.611       24.14781 -55.0402659 103.33589  -96.9599031 145.25553
+2024.630       21.45089 -58.1353130 101.03710 -100.2657048 143.16749
+2024.650       25.32995 -54.6523999 105.31230  -96.9924972 147.65239
+2024.669       21.97407 -58.4024716 102.35061 -100.9512408 144.89937
+2024.688       19.94962 -60.8191803 100.71843 -103.5756031 143.47485
+2024.707       23.17972 -57.9794518 104.33890 -100.9425245 147.30197</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(carrot_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2022.61806981519 
+End = 2022.71389459274 
+Frequency = 52.1785714285714 
+     prices
+[1,]  36.00
+[2,]  37.50
+[3,]  44.70
+[4,]  37.50
+[5,]  26.16
+[6,]  22.50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(carrot_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(carrot_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 87.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(carrot_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 120</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bestfit_carrot <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  fit_carrot <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_carrot<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_carrot<span class="sc">$</span>aicc)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    bestfit_carrot <span class="ot">&lt;-</span> fit_carrot</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: carrot_ts 
+Regression with ARIMA(0,1,0) errors 
+
+Coefficients:
+         S1-52    C1-52
+      -12.2536  -2.0347
+s.e.    5.8363   5.7266
+
+sigma^2 = 62.19:  log likelihood = -887.42
+AIC=1780.84   AICc=1780.93   BIC=1791.46
+
+Training set error measures:
+                     ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.1101321 7.839532 5.601782 -3.447729 18.85922 0.3427255
+                   ACF1
+Training set -0.0525297</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fc_arima_carrot <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_carrot, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_arima_carrot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80    Hi 80      Lo 95    Hi 95
+2022.733      21.103323  10.9971688 31.20948   5.647294 36.55935
+2022.752      19.652759   5.3604987 33.94502  -2.205367 41.51089
+2022.771      18.169316   0.6649435 35.67369  -8.601312 44.93994
+2022.791      16.674479  -3.5378301 36.88679 -14.237580 47.58654
+2022.810      15.189896  -7.4081526 37.78794 -19.370837 49.75063
+2022.829      13.737068 -11.0178535 38.49199 -24.122317 51.59645
+2022.848      12.337037 -14.4013344 39.07541 -28.555773 53.22985
+2022.867      11.010078 -17.5744430 39.59460 -32.706175 54.72633
+2022.886       9.775410 -20.5430530 40.09387 -36.592678 56.14350
+2022.906       8.650914 -23.3075520 40.60938 -40.225342 57.52717
+2022.925       7.652876 -25.8654462 41.17120 -43.608974 58.91473
+2022.944       6.795750 -28.2129959 41.80450 -46.745506 60.33701
+2022.963       6.091949 -30.3463085 42.53021 -49.635557 61.81946
+2022.982       5.551667 -32.2620998 43.36543 -52.279499 63.38283
+2023.001       5.182729 -33.9582389 44.32370 -54.678216 65.04367
+2023.021       4.990477 -35.4341409 45.41509 -56.833641 66.81459
+2023.040       4.977696 -36.6910465 46.64644 -58.749146 68.70454
+2023.059       5.144570 -37.7322114 48.02135 -60.429809 70.71895
+2023.078       5.488684 -38.5630212 49.54039 -61.882586 72.85995
+2023.097       6.005054 -39.1910424 51.20115 -63.116411 75.12652
+2023.116       6.686201 -39.6260169 52.99842 -64.142224 77.51463
+2023.136       7.522259 -39.8798064 54.92433 -64.972944 80.01746
+2023.155       8.501122 -39.9662918 56.96854 -65.623391 82.62563
+2023.174       9.608612 -39.9012313 59.11845 -66.110159 85.32738
+2023.193      10.828689 -39.7020828 61.35946 -66.451458 88.10884
+2023.212      12.143684 -39.3877943 63.67516 -66.666911 90.95428</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit_carrot1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fit_carrot2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>fit_carrot3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>fit_carrot4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit_carrot5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>fit_carrot6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>fit_carrot7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>fit_carrot8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>fit_carrot9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>fit_carrot10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>fit_carrot11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>fit_carrot12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(carrot_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_carrot1),<span class="fu">AIC</span>(fit_carrot2),<span class="fu">AIC</span>(fit_carrot3),<span class="fu">AIC</span>(fit_carrot4),<span class="fu">AIC</span>(fit_carrot5),<span class="fu">AIC</span>(fit_carrot6),<span class="fu">AIC</span>(fit_carrot7),<span class="fu">AIC</span>(fit_carrot8),<span class="fu">AIC</span>(fit_carrot9),<span class="fu">AIC</span>(fit_carrot10),<span class="fu">AIC</span>(fit_carrot11),<span class="fu">AIC</span>(fit_carrot12))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_carrot <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_carrot5, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">5</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_carrot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast        Lo 80    Hi 80       Lo 95    Hi 95
+2022.733      23.650380  13.76911484 33.53164   8.5382892 38.76247
+2022.752      24.698070  10.72385158 38.67229   3.3263471 46.06979
+2022.771      25.331746   8.21689300 42.44660  -0.8431627 51.50665
+2022.791      25.428350   5.66582003 45.19088  -4.7958312 55.65253
+2022.810      25.015848   2.92066817 47.11103  -8.7758134 58.80751
+2022.829      24.191270  -0.01278656 48.39533 -12.8256402 61.20818
+2022.848      23.037712  -3.10565754 49.18108 -16.9451212 63.02054
+2022.867      21.579067  -6.36937013 49.52750 -21.1643791 64.32251
+2022.886      19.790781  -9.85301313 49.43458 -25.5454899 65.12705
+2022.906      17.657668 -13.58963508 48.90497 -30.1309580 65.44629
+2022.925      15.247120 -17.52532755 48.01957 -34.8740134 65.36825
+2022.944      12.757148 -21.47255748 46.98685 -39.5926689 65.10696
+2022.963      10.507480 -25.11992637 46.13489 -43.9799363 64.99490
+2022.982       8.865303 -28.10700401 45.83761 -47.6789613 65.40957
+2023.001       8.125996 -30.14397801 46.39597 -50.4028784 66.65487
+2023.021       8.392016 -31.13304325 47.91707 -52.0563457 68.84038
+2023.040       9.500152 -31.24134633 50.24165 -52.8085928 71.80890
+2023.059      11.034783 -30.88787264 52.95744 -53.0803862 75.14995
+2023.078      12.435934 -30.63550085 55.50737 -53.4361410 78.30801
+2023.097      13.175658 -31.01470141 57.36602 -54.4076646 80.75898
+2023.116      12.947502 -32.33414227 58.22915 -56.3047965 82.19980
+2023.136      11.802726 -34.54451428 58.14997 -59.0792611 82.68471
+2023.155      10.179111 -37.20977041 57.56799 -62.2959287 82.65415
+2023.174       8.800747 -39.60736673 57.20886 -65.2330740 82.83457
+2023.193       8.470111 -40.93621256 57.87644 -67.0903406 84.03056
+2023.212       9.812428 -40.57233362 60.19719 -67.2444154 86.86927</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.0576933 6.774894 5.023473 -2.454147 17.92453 0.3073437
+                     ACF1
+Training set -0.006844941</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      ME    RMSE      MAE       MPE     MAPE      MASE
+Training set -0.06950523 7.54292 5.506625 -2.927501 19.22272 0.3369037
+                   ACF1
+Training set -0.1275733</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
