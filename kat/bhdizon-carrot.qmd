@@ -1,0 +1,126 @@
+---
+title: "Carrots Price Forecasting"
+author: "Bessie Dizon"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+# load the forecast package
+library(forecast)
+# load the ggplot2 package
+library(ggplot2)
+# load the readr package
+library(readr)
+# load the zoo package
+library(zoo)
+
+```
+
+```{r}
+carrot <- read_csv("/cloud/project/CSV/carrot.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+carrot_ts <- ts(carrot[,2], freq=365.25/7, start=2017+302/365.25)
+carrot_ts %>%
+  autoplot()
+```
+
+```{r}
+c_decomp <- decompose(na.locf(carrot_ts), type="additive")
+autoplot(c_decomp)
+```
+
+```{r}
+training_carrot <- subset(carrot_ts, end=length(carrot_ts)-8)
+test_carrot <- subset(carrot_ts, start=length(carrot_ts)-8)
+fc_training_carrot <- forecast(training_carrot)
+fc_training_carrot %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_carrot)
+
+```
+
+```{r}
+fc_training_carrot
+```
+
+```{r}
+fc_carrot<-forecast(carrot_ts)
+fc_carrot %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_carrot
+```
+
+```{r}
+tail(carrot_ts)
+min(carrot_ts)
+max(carrot_ts)
+which.min(carrot_ts)
+```
+
+```{r}
+bestfit_carrot <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_carrot <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=i), seasonal=FALSE)
+  if(fit_carrot$aicc < bestfit_carrot$aicc)
+    bestfit_carrot <- fit_carrot
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_carrot)
+```
+
+```{r}
+fc_arima_carrot <- forecast(bestfit_carrot, xreg=fourier(carrot_ts, K=1, h=26))
+plot(fc_arima_carrot)
+```
+
+```{r}
+fc_arima_carrot
+```
+
+```{r}
+fit_carrot1 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=1), seasonal=FALSE)
+fit_carrot2 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=2), seasonal=FALSE)
+fit_carrot3 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=3), seasonal=FALSE)
+fit_carrot4 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=4), seasonal=FALSE)
+fit_carrot5 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=5), seasonal=FALSE)
+fit_carrot6 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=6), seasonal=FALSE)
+fit_carrot7 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=7), seasonal=FALSE)
+fit_carrot8 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=8), seasonal=FALSE)
+fit_carrot9 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=9), seasonal=FALSE)
+fit_carrot10 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=10), seasonal=FALSE)
+fit_carrot11 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=11), seasonal=FALSE)
+fit_carrot12 <- auto.arima(carrot_ts, xreg=fourier(carrot_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_carrot1),AIC(fit_carrot2),AIC(fit_carrot3),AIC(fit_carrot4),AIC(fit_carrot5),AIC(fit_carrot6),AIC(fit_carrot7),AIC(fit_carrot8),AIC(fit_carrot9),AIC(fit_carrot10),AIC(fit_carrot11),AIC(fit_carrot12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_carrot <- forecast(fit_carrot5, xreg=fourier(carrot_ts, K=5, h=26))
+plot(fc_arima_man_carrot )
+```
+
+```{r}
+fc_arima_man_carrot
+```
+
+```{r}
+accuracy(fc_carrot)
+```
+
+
+```{r}
+accuracy(fc_arima_man_carrot)
+```
