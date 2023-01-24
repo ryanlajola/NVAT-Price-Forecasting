@@ -1,6 +1,6 @@
 ---
-title: "Tomato Diamante Price Forecasting"
-author: "Mark Angelo Tugade"
+title: "Tomato Price Forecasting"
+author: "Orville Hombrebueno"
 format: html
 editor: visual
 ---
@@ -8,14 +8,16 @@ editor: visual
 # Background
 
 ```{r}
-library(forecast) #load the forecast package
-library(ggplot2) #load the ggplot2 package
-library(readr) #load the readr package
-library(zoo) #load the zoo package
+# load the forecast package
+library(forecast)
+# load the ggplot2 package
+library(ggplot2)
+# load the readr package
+library(readr)
+# load the zoo package
+library(zoo)
 
 ```
-
-# Tomato Diamante
 
 ```{r}
 tomato_diamante <- read_csv("/cloud/project/CSV/tomato-diamante.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -24,24 +26,17 @@ tomato_diamante_ts %>%
   autoplot()
 ```
 
-# Tomato Diamante
-
 ```{r}
 td_decomp <- decompose(na.locf(tomato_diamante_ts), type="additive")
 autoplot(td_decomp)
-
 ```
 
-# First Model
-
-## Tomato Diamante
-
 ```{r}
-training_td <- subset(tomato_diamante_ts, end=length(tomato_diamante_ts)-8)
-test_td <- subset(tomato_diamante_ts, start=length(tomato_diamante_ts)-8)
+training_td <- subset(tomato_diamante_ts, end=length(tomato_diamante_ts)-16)
+test_td <- subset(tomato_diamante_ts, start=length(tomato_diamante_ts)-16)
 fc_training_td <- forecast(training_td)
 fc_training_td %>%
-  forecast(h=10) %>%
+  forecast(h=20) %>%
   autoplot() +autolayer(test_td)
 ```
 
@@ -50,14 +45,14 @@ fc_training_td
 ```
 
 ```{r}
-fc_tomato_diamante_ts<-forecast(tomato_diamante_ts)
-fc_tomato_diamante_ts %>%
+fc_td<-forecast(tomato_diamante_ts)
+fc_td %>%
   forecast(h=20) %>%
   autoplot()
 ```
 
 ```{r}
-fc_tomato_diamante_ts
+fc_td
 ```
 
 ```{r}
@@ -112,7 +107,7 @@ plot(aics)
 ```
 
 ```{r}
-fc_arima_man_td <- forecast(fit_td2, xreg=fourier(tomato_diamante_ts, K=2, h=26))
+fc_arima_man_td <- forecast(fit_td1, xreg=fourier(tomato_diamante_ts, K=1, h=26))
 plot(fc_arima_man_td)
 ```
 
@@ -121,11 +116,9 @@ fc_arima_man_td
 ```
 
 ```{r}
-accuracy(fc_tomato_diamante_ts)
+accuracy(fc_td)
 ```
 
 ```{r}
 accuracy(fc_arima_man_td)
 ```
-
-## 
