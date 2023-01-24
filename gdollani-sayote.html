@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Gretchen Ollani">
+
+<title>Sayote Price Forecasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="gdollani-sayote_files/libs/clipboard/clipboard.min.js"></script>
+<script src="gdollani-sayote_files/libs/quarto-html/quarto.js"></script>
+<script src="gdollani-sayote_files/libs/quarto-html/popper.min.js"></script>
+<script src="gdollani-sayote_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="gdollani-sayote_files/libs/quarto-html/anchor.min.js"></script>
+<link href="gdollani-sayote_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="gdollani-sayote_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="gdollani-sayote_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="gdollani-sayote_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="gdollani-sayote_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sayote Price Forecasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Gretchen Ollani </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">BACKGROUND</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)<span class="co"># load the forecast packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load the ggplot2 packages</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the readr packages</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># load the zoo package</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sayote_ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/sayote.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following named parsers don't match the column names: Week</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sayote_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(sayote_[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">295</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sayote_ts <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sayote_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(sayote_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(sayote_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>training_s <span class="ot">&lt;-</span> <span class="fu">subset</span>(sayote_ts, <span class="at">end=</span><span class="fu">length</span>(sayote_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test_sayote_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(sayote_ts, <span class="at">start=</span><span class="fu">length</span>(sayote_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fc_training_sayote<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_s)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>fc_training_sayote <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_sayote_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fc_training_sayote</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80     Hi 80      Lo 95    Hi 95
+2022.848      12.038772 -52.48824  76.56579  -86.64678 110.7243
+2022.867      13.830778 -50.81475  78.47631  -85.03603 112.6976
+2022.886      13.044975 -51.71885  77.80880  -86.00275 112.0927
+2022.906       7.580045 -57.30186  72.46195  -91.64827 106.8084
+2022.925       8.642545 -56.35723  73.64232  -90.76603 108.0511
+2022.944      10.580679 -54.53675  75.69811  -89.00783 110.1692
+2022.963     192.161108 126.92624 257.39598   92.39299 291.9292
+2022.982      84.100985  18.74889 149.45308  -15.84642 184.0484
+2023.001       7.914709 -57.55441  73.38383  -92.21167 108.0411
+2023.021      10.016499 -55.56943  75.60243  -90.28853 110.3215
+2023.040      11.636996 -54.06554  77.33953  -88.84636 112.1203
+2023.059       8.220389 -57.59854  74.03932  -92.44098 108.8818
+2023.078       8.416993 -57.51813  74.35212  -92.42208 109.2561
+2023.097       3.501681 -62.54943  69.55279  -97.51477 104.5181
+2023.116       3.483014 -62.68388  69.64991  -97.71052 104.6765
+2023.136       2.350271 -63.93220  68.63275  -99.02003 103.7206
+2023.155       1.877838 -64.52002  68.27569  -99.66892 103.4246
+2023.174       3.500315 -63.01272  70.01335  -98.22260 105.2232
+2023.193       4.555893 -62.07213  71.18391  -97.34287 106.4547
+2023.212       8.459985 -58.28282  75.20279  -93.61432 110.5343
+2023.231       6.847660 -60.00973  73.70505  -95.40189 109.0972
+2023.251       8.357519 -58.61426  75.32930  -94.06698 110.7820
+2023.270       8.004060 -59.08191  75.09003  -94.59508 110.6032
+2023.289       7.957105 -59.24287  75.15708  -94.81639 110.7306
+2023.308       8.671859 -58.64192  75.98564  -94.27569 111.6194
+2023.327       7.034001 -60.39340  74.46140  -96.08730 110.1553
+2023.346       5.237323 -62.30350  72.77814  -98.05745 108.5321
+2023.366       5.849134 -61.80492  73.50319  -97.61882 109.3171
+2023.385       3.760334 -64.00677  71.52744  -99.88050 107.4012
+2023.404       8.080701 -59.79926  75.96066  -95.73274 111.8941
+2023.423       8.780982 -59.21165  76.77361  -95.20477 112.7667
+2023.442       7.749433 -60.35568  75.85455  -96.40835 111.9072
+2023.461       8.693385 -59.52403  76.91079  -95.63614 113.0229
+2023.480       5.427482 -62.90204  73.75701  -99.07351 109.9285
+2023.500       4.816793 -63.62466  73.25825  -99.85538 109.4890
+2023.519       4.439405 -64.11380  72.99260 -100.40367 109.2825
+2023.538       7.929933 -60.73483  76.59470  -97.08376 112.9436
+2023.557       6.960173 -61.81598  75.73632  -98.22387 112.1442
+2023.576      10.776756 -58.11060  79.66411  -94.57736 116.1309
+2023.595      13.801345 -55.19703  82.79972  -91.72257 119.3253
+2023.615      26.093585 -43.01564  95.20281  -79.59985 131.7870
+2023.634      23.958073 -45.26182  93.17797  -81.90462 129.8208
+2023.653      12.461235 -56.86915  81.79162  -93.57044 118.4929
+2023.672      15.754392 -53.68631  85.19509  -90.44600 121.9548
+2023.691      12.218112 -57.33273  81.76896  -94.15072 118.5869
+2023.710      13.148796 -56.51201  82.80961  -93.38822 119.6858
+2023.730      10.459782 -59.31082  80.23039  -96.24515 117.1647
+2023.749       8.519838 -61.36039  78.40006  -98.35275 115.3924
+2023.768       6.803021 -63.18666  76.79270 -100.23695 113.8430
+2023.787       7.620374 -62.47858  77.71933  -99.58673 114.8275
+2023.806       8.293962 -61.91410  78.50203  -99.08001 115.6679
+2023.825      11.729682 -58.58732  82.04669  -95.81089 119.2703
+2023.845      12.038772 -58.38700  82.46455  -95.66816 119.7457
+2023.864      13.830778 -56.70360  84.36516  -94.04224 121.7038
+2023.883      13.044975 -57.59784  83.68779  -94.99389 121.0838
+2023.902       7.580045 -63.17104  78.33113 -100.62440 115.7845
+2023.921       8.642545 -62.21664  79.50173  -99.72723 117.0123
+2023.940      10.580679 -60.38645  81.54781  -97.95418 119.1155
+2023.960     192.161108 121.08620 263.23601   83.46142 300.8608
+2023.979      84.100985  12.91847 155.28350  -24.76328 192.9653
+2023.998       7.914709 -63.37526  79.20468 -101.11389 116.9433
+2024.017      10.016499 -61.38076  81.41376  -99.17618 119.2092
+2024.036      11.636996 -59.86739  83.14138  -97.71952 120.9935
+2024.055       8.220389 -63.39096  79.83174 -101.29972 117.7405
+2024.075       8.416993 -63.30117  80.13515 -101.26647 118.1005
+2024.094       3.501681 -68.32313  75.32649 -106.34489 113.3482
+2024.113       3.483014 -68.44829  75.41431 -106.52642 113.4924
+2024.132       2.350271 -69.68736  74.38790 -107.82178 112.5223
+2024.151       1.877838 -70.26597  74.02165 -108.45660 112.2123
+2024.170       3.500315 -68.74952  75.75015 -106.99627 113.9969
+2024.190       4.555893 -67.79980  76.91159 -106.10260 115.2144
+2024.209       8.459985 -64.00142  80.92139 -102.36018 119.2801
+2024.228       6.847660 -65.71930  79.41462 -104.13394 117.8293
+2024.247       8.357519 -64.31485  81.02989 -102.78528 119.5003
+2024.266       8.004060 -64.77356  80.78168 -103.29970 119.3078
+2024.285       7.957105 -64.92561  80.83982 -103.50739 119.4216
+2024.305       8.671859 -64.31581  81.65952 -102.95314 120.2969
+2024.324       7.034001 -66.05846  80.12646 -104.75127 118.8193
+2024.343       5.237323 -67.95979  78.43443 -106.70800 117.1826
+2024.362       5.849134 -67.45247  79.15074 -106.25600 117.9543
+2024.381       3.760334 -69.64562  77.16629 -108.50439 116.0251
+2024.400       8.080701 -65.42945  81.59086 -104.34338 120.5048
+2024.420       8.780982 -64.83323  82.39519 -103.80223 121.3642
+2024.439       7.749433 -65.96868  81.46755 -104.99269 120.4916
+2024.458       8.693385 -65.12849  82.51526 -104.20743 121.5942
+2024.477       5.427482 -68.49801  79.35297 -107.63180 118.4868
+2024.496       4.816793 -69.21217  78.84575 -108.40073 118.0343
+2024.515       4.439405 -69.69288  78.57169 -108.93614 117.8149
+2024.535       7.929933 -66.30553  82.16540 -105.60341 121.4633
+2024.554       6.960173 -67.37833  81.29867 -106.73075 120.6511
+2024.573      10.776756 -63.66464  85.21815 -103.07154 124.6250
+2024.592      13.801345 -60.74280  88.34549 -100.20409 127.8068
+2024.611      26.093585 -48.55318 100.74035  -88.06878 140.2560
+2024.630      23.958073 -50.79116  98.70731  -90.36101 138.2772
+2024.650      12.461235 -62.39033  87.31280 -102.01435 126.9368
+2024.669      15.754392 -59.19936  90.70815  -98.87748 130.3863
+2024.688      12.218112 -62.83769  87.27392 -102.56984 127.0061
+2024.707      13.148796 -62.00892  88.30651 -101.79502 128.0926
+2024.726      10.459782 -64.79971  85.71928 -104.63968 125.5592
+2024.745       8.519838 -66.84129  83.88097 -106.73507 123.7747
+2024.765       6.803021 -68.65961  82.26565 -108.60712 122.2132
+2024.784       7.620374 -67.94362  83.18437 -107.94479 123.1855
+2024.803       8.293962 -67.37126  83.95919 -107.42601 124.0139
+2024.822      11.729682 -64.03664  87.49600 -104.14490 127.6043</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fc_sayote<span class="ot">&lt;-</span><span class="fu">forecast</span>(sayote_ts)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fc_sayote <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(sayote_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  Weeks      Price
+  &lt;date&gt;     &lt;dbl&gt;
+1 2022-11-27  NA  
+2 2022-12-04  14  
+3 2022-12-11  13.7
+4 2022-12-18  13.4
+5 2022-12-25  16  
+6 2023-01-01  11.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(sayote_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(sayote_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(sayote_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 105</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>bestfit_sayote <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  fit_sayote <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_sayote<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_sayote<span class="sc">$</span>aicc)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    bestfit_sayote <span class="ot">&lt;-</span> fit_sayote</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_sayote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: sayote_ts 
+Regression with ARIMA(0,0,0) errors 
+
+Coefficients:
+      intercept   S1-52   C1-52
+        15.7252  5.1210  5.5632
+s.e.     3.7968  5.4356  5.2996
+
+sigma^2 = 3520:  log likelihood = -1329.99
+AIC=2667.98   AICc=2668.13   BIC=2682.39
+
+Training set error measures:
+                        ME     RMSE     MAE       MPE    MAPE     MASE
+Training set -1.693735e-11 58.96216 12.2044 -81.95023 101.153 1.459494
+                    ACF1
+Training set 0.007190841</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fc_arima_sayote <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_sayote, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_sayote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_arima_sayote</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80      Lo 95    Hi 95
+2023.001      21.993594 -54.04221 98.02940  -94.29314 138.2803
+2023.021      21.440242 -54.59557 97.47605  -94.84649 137.7270
+2023.040      20.804120 -55.23169 96.83993  -95.48261 137.0909
+2023.059      20.094440 -55.94137 96.13025  -96.19229 136.3812
+2023.078      19.321482 -56.71433 95.35729  -96.96525 135.6082
+2023.097      18.496439 -57.53937 94.53225  -97.79030 134.7832
+2023.116      17.631261 -58.40455 93.66707  -98.65547 133.9180
+2023.136      16.738476 -59.29733 92.77429  -99.54826 133.0252
+2023.155      15.831017 -60.20479 91.86683 -100.45572 132.1178
+2023.174      14.922024 -61.11378 90.95783 -101.36471 131.2088
+2023.193      14.024663 -62.01115 90.06047 -102.26207 130.3114
+2023.212      13.151930 -62.88388 89.18774 -103.13480 129.4387
+2023.231      12.316464 -63.71934 88.35227 -103.97027 128.6032
+2023.251      11.530365 -64.50544 87.56617 -104.75637 127.8171
+2023.270      10.805019 -65.23079 86.84083 -105.48172 127.0918
+2023.289      10.150930 -65.88488 86.18674 -106.13580 126.4377
+2023.308       9.577571 -66.45824 85.61338 -106.70916 125.8643
+2023.327       9.093245 -66.94256 85.12905 -107.19349 125.3800
+2023.346       8.704968 -67.33084 84.74078 -107.58177 124.9917
+2023.366       8.418363 -67.61745 84.45417 -107.86837 124.7051
+2023.385       8.237580 -67.79823 84.27339 -108.04915 124.5243
+2023.404       8.165238 -67.87057 84.20105 -108.12150 124.4520
+2023.423       8.202384 -67.83342 84.23819 -108.08435 124.4891
+2023.442       8.348480 -67.68733 84.38429 -107.93825 124.6352
+2023.461       8.601411 -67.43440 84.63722 -107.68532 124.8881
+2023.480       8.957513 -67.07830 84.99332 -107.32922 125.2442</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>fit_sayote_ts12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(sayote_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_sayote_ts1),<span class="fu">AIC</span>(fit_sayote_ts2),<span class="fu">AIC</span>(fit_sayote_ts3),<span class="fu">AIC</span>(fit_sayote_ts4),<span class="fu">AIC</span>(fit_sayote_ts5),<span class="fu">AIC</span>(fit_sayote_ts6),<span class="fu">AIC</span>(fit_sayote_ts7),<span class="fu">AIC</span>(fit_sayote_ts8),<span class="fu">AIC</span>(fit_sayote_ts9),<span class="fu">AIC</span>(fit_sayote_ts10),<span class="fu">AIC</span>(fit_sayote_ts11),<span class="fu">AIC</span>(fit_sayote_ts12))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_sayote_ts1 <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_sayote_ts1, <span class="at">xreg=</span><span class="fu">fourier</span>(sayote_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_sayote_ts1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="gdollani-sayote_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_sayote_ts1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80      Lo 95    Hi 95
+2023.001      21.993594 -54.04221 98.02940  -94.29314 138.2803
+2023.021      21.440242 -54.59557 97.47605  -94.84649 137.7270
+2023.040      20.804120 -55.23169 96.83993  -95.48261 137.0909
+2023.059      20.094440 -55.94137 96.13025  -96.19229 136.3812
+2023.078      19.321482 -56.71433 95.35729  -96.96525 135.6082
+2023.097      18.496439 -57.53937 94.53225  -97.79030 134.7832
+2023.116      17.631261 -58.40455 93.66707  -98.65547 133.9180
+2023.136      16.738476 -59.29733 92.77429  -99.54826 133.0252
+2023.155      15.831017 -60.20479 91.86683 -100.45572 132.1178
+2023.174      14.922024 -61.11378 90.95783 -101.36471 131.2088
+2023.193      14.024663 -62.01115 90.06047 -102.26207 130.3114
+2023.212      13.151930 -62.88388 89.18774 -103.13480 129.4387
+2023.231      12.316464 -63.71934 88.35227 -103.97027 128.6032
+2023.251      11.530365 -64.50544 87.56617 -104.75637 127.8171
+2023.270      10.805019 -65.23079 86.84083 -105.48172 127.0918
+2023.289      10.150930 -65.88488 86.18674 -106.13580 126.4377
+2023.308       9.577571 -66.45824 85.61338 -106.70916 125.8643
+2023.327       9.093245 -66.94256 85.12905 -107.19349 125.3800
+2023.346       8.704968 -67.33084 84.74078 -107.58177 124.9917
+2023.366       8.418363 -67.61745 84.45417 -107.86837 124.7051
+2023.385       8.237580 -67.79823 84.27339 -108.04915 124.5243
+2023.404       8.165238 -67.87057 84.20105 -108.12150 124.4520
+2023.423       8.202384 -67.83342 84.23819 -108.08435 124.4891
+2023.442       8.348480 -67.68733 84.38429 -107.93825 124.6352
+2023.461       8.601411 -67.43440 84.63722 -107.68532 124.8881
+2023.480       8.957513 -67.07830 84.99332 -107.32922 125.2442</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_sayote_ts1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        ME     RMSE     MAE       MPE    MAPE     MASE
+Training set -1.693735e-11 58.96216 12.2044 -81.95023 101.153 1.459494
+                    ACF1
+Training set 0.007190841</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_sayote)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        ME     RMSE     MAE       MPE    MAPE     MASE
+Training set -1.693735e-11 58.96216 12.2044 -81.95023 101.153 1.459494
+                    ACF1
+Training set 0.007190841</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_sayote_ts1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        ME     RMSE     MAE       MPE    MAPE     MASE
+Training set -1.693735e-11 58.96216 12.2044 -81.95023 101.153 1.459494
+                    ACF1
+Training set 0.007190841</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
