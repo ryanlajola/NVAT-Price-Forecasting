@@ -123,4 +123,4 @@ accuracy(fc_carrot)
 ```{r}
 accuracy(fc_arima_man_carrot)
 ```
- 
+    
