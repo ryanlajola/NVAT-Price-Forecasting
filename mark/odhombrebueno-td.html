@@ -156,10 +156,13 @@ Attaching package: 'zoo'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tomato_diamante <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/tomato-diamante.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tomato_diamante_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(tomato_diamante[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">302</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tomato_diamante_ts <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the csv file</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tomato_diamante <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/tomato-diamante.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create a time series object from the data</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>tomato_diamante_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(tomato_diamante[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">302</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the time series</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>tomato_diamante_ts <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="odhombrebueno-td_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
