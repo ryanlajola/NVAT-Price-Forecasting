@@ -53,19 +53,75 @@ fc_sayote %>%
   autoplot()
 ```
 
-## Running Cod
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+tail(sayote_)
+min(sayote_ts)
+max(sayote_ts)
+which.min(sayote_ts)
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+bestfit_sayote <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_sayote <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=i), seasonal=FALSE)
+  if(fit_sayote$aicc < bestfit_sayote$aicc)
+    bestfit_sayote <- fit_sayote
+  else break;
+}
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+
+summary(bestfit_sayote)
+```
+
+```{r}
+fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote_ts, K=1, h=26))
+plot(fc_arima_sayote)
+```
+
+```{r}
+fc_arima_sayote
+```
+
+```{r}
+fit_sayote_ts1 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=1), seasonal=FALSE)
+fit_sayote_ts2 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=2), seasonal=FALSE)
+fit_sayote_ts3 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=3), seasonal=FALSE)
+fit_sayote_ts4 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=4), seasonal=FALSE)
+fit_sayote_ts5 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=5), seasonal=FALSE)
+fit_sayote_ts6 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=6), seasonal=FALSE)
+fit_sayote_ts7 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=7), seasonal=FALSE)
+fit_sayote_ts8 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=8), seasonal=FALSE)
+fit_sayote_ts9 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=9), seasonal=FALSE)
+fit_sayote_ts10 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=10), seasonal=FALSE)
+fit_sayote_ts11 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=11), seasonal=FALSE)
+fit_sayote_ts12 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_sayote_ts1),AIC(fit_sayote_ts2),AIC(fit_sayote_ts3),AIC(fit_sayote_ts4),AIC(fit_sayote_ts5),AIC(fit_sayote_ts6),AIC(fit_sayote_ts7),AIC(fit_sayote_ts8),AIC(fit_sayote_ts9),AIC(fit_sayote_ts10),AIC(fit_sayote_ts11),AIC(fit_sayote_ts12))
+plot(aics)
+```
+
+```{r}
+fc_sayote_ts1 <- forecast(fit_sayote_ts1, xreg=fourier(sayote_ts, K=1, h=26))
+plot(fc_sayote_ts1)
+```
+
+```{r}
+fc_sayote_ts1
+```
+
+```{r}
+accuracy(fc_sayote_ts1)
+```
+
+```{r}
+accuracy(fc_arima_sayote)
+```
+
+```{r}
+accuracy(fc_sayote_ts1)
+```
