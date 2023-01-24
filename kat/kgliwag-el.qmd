@@ -1,0 +1,122 @@
+---
+title: "Eggplant Long Price Forecasting"
+author: "Katherine liwag"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+library(forecast) #loads the forecast package
+library(ggplot2) #loads the ggplot2 package
+library(readr) #loads the readr package
+library(zoo) #loads the zoo package
+
+```
+
+```{r}
+eggplant_long <- read_csv("/cloud/project/CSV/eggplant long.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+eggplant_long_ts <- ts(eggplant_long[,2], freq=365.25/7, start=2017+295/365.25)
+eggplant_long_ts %>%
+  autoplot()
+```
+
+```{r}
+el_decomp <- decompose(na.locf(eggplant_long_ts),type="additive")
+autoplot(el_decomp)
+```
+
+```{r}
+training_el <- subset(eggplant_long_ts, end=length(eggplant_long_ts)-8)
+test_el <- subset(eggplant_long_ts, start=length(eggplant_long_ts)-8)
+fc_training_el <- forecast(training_el)
+fc_training_el %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_el)
+```
+
+```{r}
+fc_training_el
+```
+
+```{r}
+fc_el<-forecast(eggplant_long_ts)
+fc_el %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_el
+```
+
+```{r}
+tail(eggplant_long_ts)
+min(eggplant_long_ts)
+max(eggplant_long_ts)
+which.min(eggplant_long_ts)
+```
+
+```{r}
+bestfit_el <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_el <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=i), seasonal=FALSE)
+  if(fit_el$aicc < bestfit_el$aicc)
+    bestfit_el <- fit_el
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_el)
+```
+
+```{r}
+fc_arima_el <- forecast(bestfit_el, xreg=fourier(eggplant_long_ts, K=1, h=26))
+plot(fc_arima_el)
+```
+
+```{r}
+fc_arima_el
+```
+
+```{r}
+fit_el1 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=1), seasonal=FALSE)
+fit_el2 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=2), seasonal=FALSE)
+fit_el3 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=3), seasonal=FALSE)
+fit_el4 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=4), seasonal=FALSE)
+fit_el5 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=5), seasonal=FALSE)
+fit_el6 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=6), seasonal=FALSE)
+fit_el7 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=7), seasonal=FALSE)
+fit_el8 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=8), seasonal=FALSE)
+fit_el9 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=9), seasonal=FALSE)
+fit_el10 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=10), seasonal=FALSE)
+fit_el11 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=11), seasonal=FALSE)
+fit_el12 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_el1),AIC(fit_el2),AIC(fit_el3),AIC(fit_el4),AIC(fit_el5),AIC(fit_el6),AIC(fit_el7),AIC(fit_el8),AIC(fit_el9),AIC(fit_el10),AIC(fit_el11),AIC(fit_el12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_el <- forecast(fit_el1, xreg=fourier(eggplant_long_ts, K=1, h=26))
+plot(fc_arima_man_el)
+```
+
+```{r}
+fc_arima_man_el
+```
+
+```{r}
+accuracy(fc_el)
+```
+
+```{r}
+accuracy(fc_arima_man_el)
+```
+
+# Background
