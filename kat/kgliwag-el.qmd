@@ -37,12 +37,18 @@ fc_training_el %>%
 ```
 
 ```{r}
-training_el <- subset(eggplant_long_ts, end=length(eggplant_long_ts)-8)
-test_el <- subset(eggplant_long_ts, start=length(eggplant_long_ts)-8)
-fc_training_el <- forecast(training_el)
-fc_training_el %>%
-  forecast(h=10) %>%
-  autoplot() +autolayer(test_el)
+fc_training_el
+```
+
+```{r}
+fc_el<-forecast(eggplant_long_ts)
+fc_el %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_el
 ```
 
 ```{r}
@@ -67,25 +73,50 @@ for(i in 1:25)
 summary(bestfit_el)
 ```
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+fc_arima_el <- forecast(bestfit_el, xreg=fourier(eggplant_long_ts, K=1, h=26))
+plot(fc_arima_el)
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+fc_arima_el
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+fit_el1 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=1), seasonal=FALSE)
+fit_el2 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=2), seasonal=FALSE)
+fit_el3 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=3), seasonal=FALSE)
+fit_el4 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=4), seasonal=FALSE)
+fit_el5 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=5), seasonal=FALSE)
+fit_el6 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=6), seasonal=FALSE)
+fit_el7 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=7), seasonal=FALSE)
+fit_el8 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=8), seasonal=FALSE)
+fit_el9 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=9), seasonal=FALSE)
+fit_el10 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=10), seasonal=FALSE)
+fit_el11 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=11), seasonal=FALSE)
+fit_el12 <- auto.arima(eggplant_long_ts, xreg=fourier(eggplant_long_ts, K=12), seasonal=FALSE)
+```
 
-# 
+```{r}
+aics<-c(AIC(fit_el1),AIC(fit_el2),AIC(fit_el3),AIC(fit_el4),AIC(fit_el5),AIC(fit_el6),AIC(fit_el7),AIC(fit_el8),AIC(fit_el9),AIC(fit_el10),AIC(fit_el11),AIC(fit_el12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_el <- forecast(fit_el1, xreg=fourier(eggplant_long_ts, K=1, h=26))
+plot(fc_arima_man_el)
+```
+
+```{r}
+fc_arima_man_el
+```
+
+```{r}
+accuracy(fc_el)
+```
+
+```{r}
+accuracy(fc_arima_man_el)
+```
+
+# Background

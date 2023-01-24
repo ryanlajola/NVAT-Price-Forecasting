@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aepril Jean Binwag">
+
+<title>Squash(Suprema) Price Forecasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="ajabinwag-ss_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ajabinwag-ss_files/libs/quarto-html/quarto.js"></script>
+<script src="ajabinwag-ss_files/libs/quarto-html/popper.min.js"></script>
+<script src="ajabinwag-ss_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ajabinwag-ss_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ajabinwag-ss_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ajabinwag-ss_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ajabinwag-ss_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ajabinwag-ss_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ajabinwag-ss_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Squash(Suprema) Price Forecasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Aepril Jean Binwag </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">BACKGROUND</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>squash_suprema <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/acer/Documents/R projects/Sec math 17/NVAT-Price-Forecasting/CSV/squash-suprema.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>squash_suprema_ts<span class="ot">&lt;-</span> <span class="fu">ts</span>(squash_suprema[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">302</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>squash_suprema_ts <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ss_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(squash_suprema_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(squash_suprema_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>training_ss <span class="ot">&lt;-</span> <span class="fu">subset</span>(squash_suprema_ts, <span class="at">end=</span><span class="fu">length</span>(squash_suprema_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test_ss <span class="ot">&lt;-</span> <span class="fu">subset</span>(squash_suprema_ts, <span class="at">start=</span><span class="fu">length</span>(squash_suprema_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fc_training_ss <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_ss)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fc_training_ss <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<pre class="{_decomp)}"><code></code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fc_training_ss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80    Hi 80       Lo 95    Hi 95
+2022.867       16.29846  10.6606302 21.93630   7.6761414 24.92079
+2022.886       17.37393  10.2602830 24.48757   6.4945466 28.25331
+2022.906       17.08741   8.7553826 25.41944   4.3446720 29.83015
+2022.925       17.48240   8.0887080 26.87610   3.1159859 31.84882
+2022.944       17.10888   6.7618852 27.45587   1.2845171 32.93324
+2022.963       16.17120   4.9516201 27.39079  -0.9876692 33.33008
+2022.982       22.43563  10.4065879 34.46467   4.0387974 40.83246
+2023.001       20.36933   7.5819702 33.15670   0.8127492 39.92592
+2023.021       28.24792  14.7447552 41.75108   7.5966121 48.89923
+2023.040       27.37332  13.1904308 41.55620   5.6824653 49.06417
+2023.059       23.28549   8.4540036 38.11698   0.6026889 45.96829
+2023.078       22.23851   6.7856165 37.69139  -1.3946488 45.87166
+2023.097       24.35072   8.3004736 40.40098  -0.1960161 48.89747
+2023.116       19.61877   2.9926070 36.24494  -5.8087528 45.04630
+2023.136       18.14249   0.9596997 35.32527  -8.1363177 44.42129
+2023.155       17.90524   0.1833087 35.62717  -9.1981160 45.00860
+2023.174       16.68156  -1.5635915 34.92672 -11.2219933 44.58512
+2023.193       16.43881  -2.3149725 35.19260 -12.2426270 45.12025
+2023.212       18.09781  -1.1511718 37.34679 -11.3409666 47.53658
+2023.231       20.34362   0.6118693 40.07537  -9.8334894 50.52073
+2023.251       18.43220  -1.7707886 38.63519 -12.4656057 49.33001
+2023.270       21.48917   0.8256862 42.15266 -10.1129020 53.09124
+2023.289       25.85232   4.7383772 46.96625  -6.4386666 58.14330
+2023.308       21.75863   0.2036502 43.31361 -11.2068671 54.72413
+2023.327       17.54693  -4.4402508 39.53410 -16.0795593 51.17341
+2023.346       14.15579  -8.2552531 36.56683 -20.1189413 48.43052
+2023.366       12.29301 -10.5340289 35.12004 -22.6179312 47.20394
+2023.385       12.59196 -10.6436275 35.82754 -22.9438020 48.12771
+2023.404       13.10766 -10.5294106 36.74473 -23.0421197 49.25744
+2023.423       13.91442 -10.1174307 37.94627 -22.8391243 50.66797
+2023.442       19.54581  -4.8744450 43.96606 -17.8017449 56.89336
+2023.461       19.14470  -5.6578653 43.94727 -18.7875523 57.07696
+2023.480       19.58790  -5.5911803 44.76699 -18.9201817 58.09599
+2023.500       20.67612  -4.8739335 46.22616 -18.3993125 59.75154
+2023.519       20.02533  -5.8903748 45.94104 -19.6093206 59.65998
+2023.538       19.81472  -6.4615526 46.09100 -20.3713718 60.00081
+2023.557       21.18837  -5.4435890 47.82033 -19.5416976 61.91844
+2023.576       21.03650  -5.9464604 48.01946 -20.2303766 62.30338
+2023.595       19.86735  -7.4621039 47.19680 -21.9294416 61.66414
+2023.615       20.37728  -7.2943272 48.04888 -21.9427898 62.69734
+2023.634       20.55458  -7.4549982 48.56416 -22.2823733 63.39153
+2023.653       20.34300  -8.0005178 48.68653 -23.0046722 63.69068
+2023.672       19.37156  -9.3020216 48.04513 -24.4808967 63.22401
+2023.691       17.38485 -11.6150260 46.38473 -26.9666332 61.73633
+2023.710       17.54258 -11.7799668 46.86512 -27.3023842 62.38754
+2023.730       16.99711 -12.6445876 46.63881 -28.3359559 62.33018
+2023.749       17.15751 -12.7999469 47.11497 -28.6584662 62.97348
+2023.768       16.57612 -13.6938009 46.84604 -29.7177278 62.86996
+2023.787       18.00476 -12.5744236 48.58395 -28.7620680 64.77160
+2023.806       13.22944 -17.6559183 44.11480 -34.0056408 60.46453
+2023.825       14.93976 -16.2487636 46.12829 -32.7589733 62.63850
+2023.845       16.82857 -14.6602122 48.31734 -31.3293640 64.98649
+2023.864       16.29846 -15.4877262 48.08465 -32.3143188 64.91125
+2023.883       17.37393 -14.7069174 49.45477 -31.6894912 66.43735
+2023.902       17.08741 -15.2854064 49.46023 -32.4225419 66.59737
+2023.921       17.48240 -15.1797799 50.14459 -32.4700954 67.43490
+2023.940       17.10888 -15.8401263 50.05789 -33.2822766 67.50004
+2023.960       16.17120 -17.0621487 49.40456 -34.6548234 66.99723
+2023.979       22.43563 -11.0796582 55.95092 -28.8215803 73.69284
+2023.998       20.36933 -13.4255387 54.16420 -31.3154632 72.05413
+2024.017       28.24792  -5.8242419 62.32008 -23.8609543 80.35679
+2024.036       27.37332  -6.9738960 61.72053 -25.1562113 79.90284
+2024.055       23.28549 -11.3345863 57.90557 -29.6613479 76.23233
+2024.075       22.23851 -12.6523026 57.12931 -31.1223807 75.59939
+2024.094       24.35072 -10.8087301 59.51018 -29.4210213 78.12247
+2024.113       19.61877 -15.8072932 55.04484 -34.5607190 73.79826
+2024.132       18.14249 -17.5481973 53.83317 -36.4417035 72.72667
+2024.151       17.90524 -18.0481116 53.85860 -37.0806673 72.89115
+2024.170       16.68156 -19.5325550 52.89568 -38.7031515 72.06628
+2024.190       16.43881 -20.0342069 52.91183 -39.3418574 72.21948
+2024.209       18.09781 -18.6322873 54.82791 -38.0760257 74.27164
+2024.228       20.34362 -16.6417643 57.32901 -36.2206448 76.90789
+2024.247       18.43220 -18.8067231 55.67113 -38.5198192 75.38422
+2024.266       21.48917 -16.0015787 58.97992 -35.8479828 78.82632
+2024.285       25.85232 -11.8885788 63.59321 -31.8674014 83.57203
+2024.305       21.75863 -16.2307612 59.74802 -36.3411304 79.85839
+2024.324       17.54693 -20.6893479 55.78320 -40.9304088 76.02426
+2024.343       14.15579 -24.3257854 52.63736 -44.6966995 73.00827
+2024.362       12.29301 -26.4323117 51.01832 -46.9322566 71.51827
+2024.381       12.59196 -26.3755828 51.55949 -47.0037513 72.18766
+2024.400       13.10766 -26.1006022 52.31592 -46.8562023 73.07152
+2024.420       13.91442 -25.5330963 53.36194 -46.4153503 74.24419
+2024.439       19.54581 -20.1395234 59.23114 -41.1476678 80.23928
+2024.458       19.14470 -20.7770214 59.06643 -41.9103062 80.19971
+2024.477       19.58790 -20.5688269 59.74463 -41.8265154 81.00232
+2024.496       20.67612 -19.7142511 61.06648 -41.0956197 82.44785
+2024.515       20.02533 -20.5973293 60.64799 -42.1016665 82.15233
+2024.535       19.81472 -21.0389111 60.66835 -42.6655177 82.29496
+2024.554       21.18837 -19.8949343 62.27168 -41.6431230 84.01987
+2024.573       21.03650 -20.2752038 62.34820 -42.1442986 84.21730
+2024.592       19.86735 -21.6714972 61.40619 -43.6608334 83.39553
+2024.611       20.37728 -21.3874734 62.14203 -43.4963970 84.25095
+2024.630       20.55458 -21.4348612 62.54402 -43.6627288 84.77189
+2024.650       20.34300 -21.8699314 62.55594 -44.2161100 84.90212
+2024.669       19.37156 -23.0636978 61.80681 -45.5275642 84.27068
+2024.688       17.38485 -25.2715623 60.04126 -47.8525031 82.62220
+2024.707       17.54258 -25.3338532 60.41901 -48.0312647 83.11642
+2024.726       16.99711 -26.0982131 60.09244 -48.9115005 82.90573
+2024.745       17.15751 -26.1556052 60.47062 -49.0841831 83.39920
+2024.765       16.57612 -26.9536960 60.10593 -49.9969874 83.14922
+2024.784       18.00476 -25.7406748 61.75020 -48.8981115 84.90764
+2024.803       13.22944 -30.7305645 57.18945 -54.0015866 80.46047
+2024.822       14.93976 -29.2337681 59.11330 -52.6178240 82.49735
+2024.841       16.82857 -27.5574666 61.21460 -51.0540124 84.71114</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fc_ss<span class="ot">&lt;-</span><span class="fu">forecast</span>(squash_suprema_ts)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fc_ss <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(squash_suprema_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2022.90554414784 
+End = 2023.00136892539 
+Frequency = 52.1785714285714 
+      Prices
+[1,] 22.5000
+[2,] 27.5000
+[3,] 24.5000
+[4,] 20.6667
+[5,] 20.1000
+[6,] 20.2000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(squash_suprema_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(squash_suprema_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(squash_suprema_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 154</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>bestfit_ss <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  fit_ss <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_ss<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_ss<span class="sc">$</span>aicc)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    bestfit_ss <span class="ot">&lt;-</span> fit_ss</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre data-k="i)," data-seasonal="FALSE)"><code>  if(fit_ss$aicc &lt; bestfit_ss$aicc)
+    bestfit_ss &lt;- fit_ss
+  else break;
+}</code></pre>
+<pre class="{)}"><code></code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: squash_suprema_ts 
+Regression with ARIMA(5,0,0) errors 
+
+Coefficients:
+         ar1     ar2     ar3     ar4      ar5  intercept   S1-52    C1-52
+      0.7439  0.0038  0.1422  0.0141  -0.1150    14.8809  0.3786  -0.0147
+s.e.  0.0676  0.0954  0.0921  0.0944   0.0681     1.4171  1.9026   1.8907
+
+sigma^2 = 25.35:  log likelihood = -781.94
+AIC=1581.87   AICc=1582.56   BIC=1614.29
+
+Training set error measures:
+                      ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.04740678 4.956199 3.037726 -10.26114 23.07462 0.3091161
+                   ACF1
+Training set 0.02799005</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: squash_suprema_ts 
+Regression with ARIMA(5,0,0) errors 
+
+Coefficients:
+         ar1     ar2     ar3     ar4      ar5  intercept   S1-52    C1-52
+      0.7439  0.0038  0.1422  0.0141  -0.1150    14.8809  0.3786  -0.0147
+s.e.  0.0676  0.0954  0.0921  0.0944   0.0681     1.4171  1.9026   1.8907
+
+sigma^2 = 25.35:  log likelihood = -781.94
+AIC=1581.87   AICc=1582.56   BIC=1614.29
+
+Training set error measures:
+                      ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.04740678 4.956199 3.037726 -10.26114 23.07462 0.3091161
+                   ACF1
+Training set 0.02799005</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ss <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_ss, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80      Lo 95    Hi 95
+2023.021       18.44870 11.996252 24.90115  8.5805311 28.31688
+2023.040       17.35505  9.312920 25.39718  5.0556719 29.65443
+2023.059       16.97891  8.169524 25.78829  3.5061182 30.45169
+2023.078       16.50846  6.987814 26.02911  1.9478867 31.06904
+2023.097       15.96033  5.825956 26.09470  0.4611440 31.45951
+2023.116       15.67715  5.254490 26.09981 -0.2629320 31.61723
+2023.136       15.51092  4.927731 26.09411 -0.6746703 31.69651
+2023.155       15.33700  4.647124 26.02688 -1.0117561 31.68576
+2023.174       15.20453  4.457423 25.95163 -1.2317500 31.64080
+2023.193       15.13154  4.359969 25.90312 -1.3421590 31.60525
+2023.212       15.07261  4.289242 25.85598 -1.4191287 31.56435
+2023.231       15.01638  4.227479 25.80528 -1.4838188 31.51657
+2023.251       14.97196  4.181124 25.76279 -1.5311984 31.47512
+2023.270       14.93438  4.143009 25.72576 -1.5695994 31.43836
+2023.289       14.89580  4.104296 25.68731 -1.6083832 31.39999
+2023.308       14.85687  4.065354 25.64839 -1.6473321 31.36108
+2023.327       14.81892  4.027391 25.61044 -1.6852969 31.32313
+2023.346       14.78082  3.989271 25.57236 -1.7234281 31.28506
+2023.366       14.74243  3.950860 25.53401 -1.7618540 31.24672
+2023.385       14.70488  3.913274 25.49648 -1.7994566 31.20921
+2023.404       14.66887  3.877234 25.46050 -1.8355112 31.17324
+2023.423       14.63484  3.843186 25.42649 -1.8695699 31.13925
+2023.442       14.60349  3.811825 25.39516 -1.9009389 31.10792
+2023.461       14.57554  3.783863 25.36722 -1.9289049 31.07998
+2023.480       14.55151  3.759829 25.34319 -1.9529421 31.05596
+2023.500       14.53185  3.740169 25.32354 -1.9726039 31.03631</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fit_ss1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fit_ss2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>fit_ss3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>fit_ss4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>fit_ss5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>fit_ss6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>fit_ss7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>fit_ss8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>fit_ss9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>fit_ss10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>fit_ss11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>fit_ss12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(squash_suprema_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_ss1),<span class="fu">AIC</span>(fit_ss2),<span class="fu">AIC</span>(fit_ss3),<span class="fu">AIC</span>(fit_ss4),<span class="fu">AIC</span>(fit_ss5),<span class="fu">AIC</span>(fit_ss6),<span class="fu">AIC</span>(fit_ss7),<span class="fu">AIC</span>(fit_ss8),<span class="fu">AIC</span>(fit_ss9),<span class="fu">AIC</span>(fit_ss10),<span class="fu">AIC</span>(fit_ss11),<span class="fu">AIC</span>(fit_ss12))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ss <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_ss1, <span class="at">xreg=</span><span class="fu">fourier</span>(squash_suprema_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ajabinwag-ss_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80      Lo 95    Hi 95
+2023.021       18.44870 11.996252 24.90115  8.5805311 28.31688
+2023.040       17.35505  9.312920 25.39718  5.0556719 29.65443
+2023.059       16.97891  8.169524 25.78829  3.5061182 30.45169
+2023.078       16.50846  6.987814 26.02911  1.9478867 31.06904
+2023.097       15.96033  5.825956 26.09470  0.4611440 31.45951
+2023.116       15.67715  5.254490 26.09981 -0.2629320 31.61723
+2023.136       15.51092  4.927731 26.09411 -0.6746703 31.69651
+2023.155       15.33700  4.647124 26.02688 -1.0117561 31.68576
+2023.174       15.20453  4.457423 25.95163 -1.2317500 31.64080
+2023.193       15.13154  4.359969 25.90312 -1.3421590 31.60525
+2023.212       15.07261  4.289242 25.85598 -1.4191287 31.56435
+2023.231       15.01638  4.227479 25.80528 -1.4838188 31.51657
+2023.251       14.97196  4.181124 25.76279 -1.5311984 31.47512
+2023.270       14.93438  4.143009 25.72576 -1.5695994 31.43836
+2023.289       14.89580  4.104296 25.68731 -1.6083832 31.39999
+2023.308       14.85687  4.065354 25.64839 -1.6473321 31.36108
+2023.327       14.81892  4.027391 25.61044 -1.6852969 31.32313
+2023.346       14.78082  3.989271 25.57236 -1.7234281 31.28506
+2023.366       14.74243  3.950860 25.53401 -1.7618540 31.24672
+2023.385       14.70488  3.913274 25.49648 -1.7994566 31.20921
+2023.404       14.66887  3.877234 25.46050 -1.8355112 31.17324
+2023.423       14.63484  3.843186 25.42649 -1.8695699 31.13925
+2023.442       14.60349  3.811825 25.39516 -1.9009389 31.10792
+2023.461       14.57554  3.783863 25.36722 -1.9289049 31.07998
+2023.480       14.55151  3.759829 25.34319 -1.9529421 31.05596
+2023.500       14.53185  3.740169 25.32354 -1.9726039 31.03631</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.07646434 4.419168 3.049828 -4.799524 23.02007 0.3103475
+                   ACF1
+Training set 0.03146328</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_ss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.04740678 4.956199 3.037726 -10.26114 23.07462 0.3091161
+                   ACF1
+Training set 0.02799005</code></pre>
+</div>
+</div>
+<p>```</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
