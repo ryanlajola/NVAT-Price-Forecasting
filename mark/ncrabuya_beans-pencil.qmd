@@ -22,17 +22,16 @@ library(zoo)
 ```
 
 # Beans Pencil
-```{r}
-beans_pencil <- read_csv("/cloud/project/CSV/beans-pencil.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-```
 
 
 ```{r}
-beans_pencil <- ts(beans_pencil[,2], freq=365.25/7, start=2017+309/365.25)
+beans_pencil_ts <- read_csv("/cloud/project/CSV/beans-pencil.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+beans_pencil <- ts(beans_pencil_ts[,2], freq=365.25/7, start=2017+309/365.25)
 beans_pencil %>%
   autoplot()
 ```
 
+```
 
 # Beans pencil
 ```{r}
@@ -75,6 +74,7 @@ min(beans_pencil)
 max(beans_pencil)
 which.min(beans_pencil)
 ```
+
 ```{r}
 bestfit_bp <- list(aicc=Inf)
 for(i in 1:25)
@@ -83,6 +83,7 @@ for(i in 1:25)
     bestfit_bp <- fit_bp
   else break}
 ```
+
 
 
 

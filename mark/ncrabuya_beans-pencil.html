@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nestor Rbuya">
+
+<title>beans-pencil</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="ncrabuya_beans-pencil_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ncrabuya_beans-pencil_files/libs/quarto-html/quarto.js"></script>
+<script src="ncrabuya_beans-pencil_files/libs/quarto-html/popper.min.js"></script>
+<script src="ncrabuya_beans-pencil_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ncrabuya_beans-pencil_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ncrabuya_beans-pencil_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ncrabuya_beans-pencil_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ncrabuya_beans-pencil_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ncrabuya_beans-pencil_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ncrabuya_beans-pencil_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">beans-pencil</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nestor Rbuya </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level1">
+<h1>BACKGROUND</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)<span class="co"># load the forecast packages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load the ggplot2 packages</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the readr packages</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># load the zoo package</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="beans-pencil" class="level1">
+<h1>Beans Pencil</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>beans_pencil_ts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/beans-pencil.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The following named parsers don't match the column names: Week</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>beans_pencil <span class="ot">&lt;-</span> <span class="fu">ts</span>(beans_pencil_ts[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2017</span><span class="sc">+</span><span class="dv">309</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>beans_pencil <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<pre><code>
+# Beans pencil
+::: {.cell}
+
+```{.r .cell-code}
+bp_decomp &lt;- decompose(na.locf(beans_pencil), type="additive")
+autoplot(bp_decomp)</code></pre>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<p>::: # First Model</p>
+<section id="beans-pencil-1" class="level2">
+<h2 class="anchored" data-anchor-id="beans-pencil-1">Beans Pencil</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>training_bp <span class="ot">&lt;-</span> <span class="fu">subset</span>(beans_pencil, <span class="at">end=</span><span class="fu">length</span>(beans_pencil)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>test_bp <span class="ot">&lt;-</span> <span class="fu">subset</span>(beans_pencil, <span class="at">start=</span><span class="fu">length</span>(beans_pencil)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fc_training_bp<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_bp)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>fc_training_bp <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_bp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fc_training_bp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast         Lo 80     Hi 80       Lo 95     Hi 95
+2022.848       65.63342  48.993213454  82.27363   40.184419  91.08242
+2022.867       59.26140  39.340479801  79.18232   28.794982  89.72782
+2022.886       62.37874  39.645732352  85.11174   27.611606  97.14587
+2022.906       68.62995  43.396323221  93.86358   30.038447 107.22146
+2022.925       60.44100  32.933138932  87.94886   18.371356 102.51065
+2022.944       58.35703  28.749112600  87.96496   13.075626 103.63844
+2022.963       63.67012  32.101533286  95.23870   15.390134 111.95010
+2022.982       50.00493  16.590529279  83.41933   -1.097985 101.10784
+2023.001       44.52331   9.359858580  79.68677   -9.254550  98.30117
+2023.021       55.00177  18.172233264  91.83131   -1.324147 111.32769
+2023.040       43.67964   5.256193709  82.10309  -15.083952 102.44324
+2023.059       43.95511   4.001287682  83.90893  -17.148989 105.05921
+2023.078       49.92657   8.498872625  91.35428  -13.431628 113.28478
+2023.097       42.85681   0.005894801  85.70773  -22.678010 108.39163
+2023.116       43.74032  -0.488034357  87.96868  -23.901112 111.38176
+2023.136       53.43955   7.875379201  99.00373  -16.244838 123.12394
+2023.155       45.60032  -1.261608715  92.46225  -26.068816 117.26946
+2023.174       46.62548  -1.499223396  94.75018  -26.974902 120.22586
+2023.193       46.49246  -2.862719697  95.84763  -28.989772 121.97469
+2023.212       47.65574  -2.899967311  98.21146  -29.662544 124.97403
+2023.231       62.28906  10.560670768 114.01745  -16.822685 141.40081
+2023.251       51.28710  -1.587969719 104.16217  -29.578341 132.15254
+2023.270       49.12077  -4.876627418 103.11818  -33.461126 131.70268
+2023.289       48.42379  -6.673088842 103.52067  -35.839614 132.68719
+2023.308       52.92233  -3.252505716 109.09717  -32.989669 138.83433
+2023.327       55.57204  -1.660459741 112.80454  -31.957515 143.10159
+2023.346       63.28562   5.014651805 121.55658  -25.832134 152.40337
+2023.366       75.99937  16.708122648 135.29062  -14.678767 166.67751
+2023.385       76.06897  15.774708494 136.36324  -16.143148 168.28110
+2023.404       67.81412   6.533247867 129.09499  -25.906885 161.53512
+2023.423       64.26906   2.017219657 126.52090  -30.936913 159.47503
+2023.442       67.62400   4.416104306 130.83189  -29.044134 164.29213
+2023.461       62.34662  -1.803080204 126.49633  -35.761882 160.45513
+2023.480       60.37636  -4.701521328 125.45425  -39.151672 159.90440
+2023.500       54.68589 -11.307125111 120.67890  -46.241715 155.61349
+2023.519       41.25009 -25.645529876 108.14571  -61.057932 143.55811
+2023.538       47.41323 -20.372976705 115.19945  -56.256829 151.08330
+2023.557       48.13511 -20.530140150 116.80037  -56.879329 153.14955
+2023.576       45.47177 -24.061410386 115.00495  -60.870054 151.81360
+2023.595       46.71894 -23.671473233 117.10935  -60.933906 154.37178
+2023.615       48.06908 -23.168245109 119.30640  -60.879007 157.01717
+2023.634       47.63153 -24.442754581 119.70582  -62.596578 157.85964
+2023.653       54.28128 -18.620365431 127.18292  -57.212164 165.77472
+2023.672       58.12594 -15.593775987 131.84565  -54.618634 170.87051
+2023.691       64.75129  -9.777511066 139.28009  -49.230676 178.73326
+2023.710       69.89177  -5.437435945 145.22097  -45.314307 185.09784
+2023.730       73.71543  -2.405761263 149.83662  -42.701885 190.13274
+2023.749       69.69161  -7.213404442 146.59663  -47.924462 187.30769
+2023.768       77.43234  -0.248597987 155.11328  -41.370403 196.23509
+2023.787       67.41259 -11.036595621 145.86178  -52.565086 187.39027
+2023.806       80.68129   1.471306252 159.89127  -40.459926 201.82250
+2023.825       69.48929 -10.474252289 149.45283  -52.804394 191.78297
+2023.845       65.63342 -15.076642238 146.34349  -57.801969 189.06881
+2023.864       59.26140 -22.188345544 140.71114  -65.305236 183.82803
+2023.883       62.37874 -19.804030746 144.56151  -63.308960 188.06643
+2023.902       68.62995 -14.279359268 151.53926  -58.168897 195.42880
+2023.921       60.44100 -23.188540784 144.07054  -67.459346 188.34135
+2023.940       58.35703 -25.986589753 142.70066  -70.635407 187.34947
+2023.960       63.67012 -21.381592484 148.72183  -66.405248 193.74548
+2023.979       50.00493 -35.749022105 135.75888  -81.144421 181.15428
+2023.998       44.52331 -41.927172373 130.97380  -87.691295 176.73792
+2024.017       55.00177 -32.139680123 142.14323  -78.269579 188.27312
+2024.036       43.67964 -44.147341808 131.50663  -90.640139 177.99943
+2024.055       43.95511 -44.552096956 132.46232  -91.404983 179.31520
+2024.075       49.92657 -39.255667738 139.10882  -86.465895 186.31904
+2024.094       42.85681 -46.995394928 132.70902  -94.560279 180.27390
+2024.113       43.74032 -46.776888434 134.25753  -94.693805 182.17445
+2024.132       53.43955 -37.737811199 144.61692  -86.004193 192.88330
+2024.151       45.60032 -46.232452513 137.43309  -94.845786 186.04643
+2024.170       46.62548 -45.858059214 139.10902  -94.815887 188.06684
+2024.190       46.49246 -46.637298270 139.62221  -95.937213 188.92213
+2024.209       47.65574 -46.115775028 141.42726  -95.755419 191.06691
+2024.228       62.28906 -32.119858702 156.69798  -82.096922 206.67505
+2024.247       51.28710 -43.754947954 146.32915  -94.067169 196.64137
+2024.266       49.12077 -46.550209775 144.79176  -97.195370 195.43692
+2024.285       48.42379 -47.872025004 144.71960  -98.847950 195.69553
+2024.305       52.92233 -43.994282680 149.83895  -95.298840 201.14350
+2024.324       55.57204 -41.961425708 153.10550  -93.592523 204.73660
+2024.343       63.28562 -34.860820503 161.43206  -86.816406 213.38764
+2024.362       75.99937 -22.756236982 174.75498  -75.034297 227.03304
+2024.381       76.06897 -23.292066216 175.43001  -75.890624 228.02857
+2024.400       67.81412 -32.148689900 167.77692  -85.065803 220.69404
+2024.420       64.26906 -36.291914517 164.83003  -89.525678 218.06379
+2024.439       67.62400 -33.531602997 168.77960  -87.080144 222.32814
+2024.458       62.34662 -39.400132566 164.09338  -93.261611 217.95486
+2024.477       60.37636 -41.958132353 162.71086  -96.130741 216.88347
+2024.496       54.68589 -48.232991855 157.60476 -102.714954 212.08673
+2024.515       41.25009 -62.249870538 144.75005 -117.039440 199.53962
+2024.535       47.41323 -56.664564707 151.49103 -111.760023 206.58649
+2024.554       48.13511 -56.517335044 152.78756 -111.916994 208.18722
+2024.573       45.47177 -59.752185945 150.69573 -115.454384 206.39793
+2024.592       46.71894 -59.073443049 152.51132 -115.076546 208.51442
+2024.611       48.06908 -58.288685966 154.42684 -114.591086 210.72924
+2024.630       47.63153 -59.288627846 154.55169 -115.888742 211.15181
+2024.650       54.28128 -53.198336665 161.76089 -110.094607 218.65716
+2024.669       58.12594 -49.910232966 166.16210 -107.101126 223.35300
+2024.688       64.75129 -43.838580365 173.34116 -101.322586 230.82517
+2024.707       69.89177 -39.248998226 179.03253  -97.024630 236.80816
+2024.726       73.71543 -35.973465402 183.40432  -94.039258 241.47011
+2024.745       69.69161 -40.542680585 179.92591  -98.897191 238.28042
+2024.765       77.43234 -33.344669659 188.20935  -91.986477 246.85116
+2024.784       67.41259 -43.904490949 178.72967 -102.832195 237.65738
+2024.803       80.68129 -31.173255898 192.53583  -90.385475 251.74805
+2024.822       69.48929 -42.900149169 181.87873 -102.395524 241.37410</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fc_beans_pencil<span class="ot">&lt;-</span><span class="fu">forecast</span>(beans_pencil)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fc_beans_pencil <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fc_beans_pencil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80       Lo 95     Hi 95
+2023.001       22.11972   4.872016  39.36743   -4.258370  48.49782
+2023.021       32.61575  12.256925  52.97458    1.479612  63.75190
+2023.040       21.30214  -1.751721  44.35600  -13.955696  56.55997
+2023.059       21.57320  -3.892047  47.03845  -17.372535  60.51893
+2023.078       27.54385  -0.123406  55.21111  -14.769569  69.85728
+2023.097       20.47328  -9.233213  50.17977  -24.958880  65.90544
+2023.116       21.35534 -10.259123  52.96980  -26.994808  69.70548
+2023.136       31.05312  -2.360542  64.46678  -20.048665  82.15490
+2023.155       23.21365 -11.907157  58.33446  -30.498989  76.92629
+2023.174       24.23857 -12.510162  60.98731  -31.963767  80.44091
+2023.193       24.10540 -14.202146  62.41294  -34.480935  82.69173
+2023.212       25.26853 -14.536823  65.07389  -35.608506  86.14557
+2023.231       39.74301  -1.505804  80.99183  -23.341608 102.82763
+2023.251       29.11796 -13.525484  71.76140  -36.099560  94.33548
+2023.270       26.73839 -17.255489  70.73228  -40.544444  94.02123
+2023.289       26.04635 -19.257736  71.35044  -43.240270  95.33297
+2023.308       30.57624 -16.001204  77.15369  -40.657815 101.81030
+2023.327       33.20166 -14.615254  81.01857  -39.927998 106.33132
+2023.346       40.75935  -8.265705  89.78440  -34.217999 115.73669
+2023.366       53.63590   3.431773 103.84002  -23.144685 130.41648
+2023.385       53.42158   2.065449 104.77772  -25.120846 131.96401
+2023.404       45.86125  -6.621616  98.34411  -34.404365 126.12686
+2023.423       39.28227 -14.303634  92.86818  -42.670299 121.23484
+2023.442       43.96694 -10.699761  98.63363  -39.638563 127.57244
+2023.461       40.00048 -15.726056  95.72701  -45.225899 125.22685
+2023.480       37.54655 -19.220032  94.31313  -49.270445 124.36354
+2023.500       32.14725 -25.640668  89.93516  -56.231743 120.52624
+2023.519       18.91843 -39.873084  77.70994  -70.995429 108.83228
+2023.538       25.08602 -34.692235  84.86428  -66.336933 116.50898
+2023.557       25.81235 -34.936628  86.56133  -67.095195 118.71990
+2023.576       23.15333 -38.551104  84.85776  -71.215458 117.52211
+2023.595       24.40481 -38.240503  87.05013  -71.402930 120.21255
+2023.615       25.75972 -37.812552  89.33199  -71.465681 122.98512
+2023.634       25.36835 -39.117553  89.85426  -73.254331 123.99104
+2023.653       31.98419 -33.402589  97.37097  -68.016259 131.98464
+2023.672       35.83635 -30.439052 102.11176  -65.523132 137.19584
+2023.691       42.50943 -24.642842 109.66170  -60.191108 145.20997
+2023.710       47.61373 -20.404110 115.63156  -56.410578 151.63803
+2023.730       51.58034 -17.292180 120.45287  -53.751092 156.91178
+2023.749       47.42834 -22.288389 117.14508  -59.194199 154.05089
+2023.768       55.17652 -15.374322 125.72736  -52.721683 163.07472
+2023.787       45.16422 -26.210987 116.53942  -63.994738 154.32318
+2023.806       56.73258 -15.457575 128.92273  -53.672734 167.13789
+2023.825       47.25054 -25.745468 120.24654  -64.387219 158.88829
+2023.845       55.25974 -18.533319 129.05280  -57.597004 168.11648
+2023.864       35.38884 -39.192752 109.97043  -78.673862 149.45154
+2023.883       42.88705 -32.474826 118.24892  -72.368993 158.14309
+2023.902       39.14005 -36.994109 115.27422  -77.297099 155.57721
+2023.921       33.67945 -43.219241 110.57815  -83.926950 151.28586
+2023.940       39.45132 -38.204383 117.10701  -79.312826 158.21546
+2023.960       45.89708 -32.508319 124.30247  -74.013629 165.80778
+2023.979       19.14250 -60.005488  98.29049 -101.903903 140.18891
+2023.998       22.11972 -57.763959 102.00341 -100.051826 144.29128
+2024.017       32.61575 -47.996908 113.22842  -90.670674 155.90218
+2024.036       21.30214 -60.032971 102.63725 -103.089176 145.69345
+2024.055       21.57320 -60.477993 103.62439 -103.913271 147.05967
+2024.075       27.54385 -55.217228 110.30494  -99.028298 154.11601
+2024.094       20.47328 -62.991654 103.93821 -107.175320 148.12188
+2024.113       21.35534 -62.807561 105.51824 -107.360708 150.07138
+2024.132       31.05312 -53.802007 115.90824  -98.721596 160.82783
+2024.151       23.21365 -62.328097 108.75540 -107.611163 154.03846
+2024.170       24.23857 -61.984330 110.46148 -107.627977 156.10512
+2024.190       24.10540 -62.793321 111.00412 -108.794724 157.00552
+2024.209       25.26853 -62.300787 112.83785 -108.657185 159.19425
+2024.228       39.74301 -48.491812 127.97784  -95.200506 174.68653
+2024.247       29.11796 -59.777387 118.01331 -106.835741 165.07166
+2024.266       26.73839 -62.812604 116.28939 -110.218038 163.69483
+2024.285       26.04635 -64.155532 116.24823 -111.905525 163.99823
+2024.305       30.57624 -60.271860 121.42435 -108.363942 169.51643
+2024.324       33.20166 -58.288103 124.69142 -106.719858 173.12317
+2024.343       40.75935 -51.367605 132.88630 -100.136666 181.65536
+2024.362       53.63590 -39.123865 146.39566  -88.227917 195.49971
+2024.381       53.42158 -39.966703 146.80987  -89.403475 196.24664
+2024.400       45.86125 -48.151360 139.87385  -97.918628 189.64112
+2024.420       39.28227 -55.350538 133.91508 -105.446121 184.01067
+2024.439       43.96694 -51.282038 139.21591 -101.703800 189.63767
+2024.458       40.00048 -55.860704 135.86165 -106.606547 186.60750
+2024.477       37.54655 -58.922950 134.01605 -109.990817 185.08391
+2024.496       32.14725 -64.926759 129.22125 -116.314633 180.60913
+2024.515       18.91843 -78.756346 116.59320 -130.462247 168.29910
+2024.535       25.08602 -73.185843 123.35789 -125.207826 175.37987
+2024.554       25.81235 -73.053001 124.67770 -125.389157 177.01386
+2024.573       23.15333 -76.301970 122.60863 -128.950425 175.25708
+2024.592       24.40481 -75.636955 124.44658 -128.595866 177.40549
+2024.611       25.75972 -74.865094 126.38453 -128.132653 179.65209
+2024.630       25.36835 -75.836150 126.57286 -129.410578 180.14729
+2024.650       31.98419 -69.796704 133.76508 -123.676254 187.64463
+2024.669       35.83635 -66.517684 138.19039 -120.700637 192.37334
+2024.688       42.50943 -60.414557 145.43342 -114.899224 199.91808
+2024.707       47.61373 -55.877072 151.10453 -110.661792 205.88925
+2024.726       51.58034 -52.474180 155.63487 -107.557317 210.71801
+2024.745       47.42834 -57.186866 152.04356 -112.566814 207.42350
+2024.765       55.17652 -49.996389 160.34943 -105.671564 216.02461
+2024.784       45.16422 -60.563447 150.89188 -116.532293 206.86073
+2024.803       56.73258 -49.546947 163.01211 -105.807930 219.27309
+2024.822       47.25054 -59.577999 154.07907 -116.129610 210.63069
+2024.841       55.25974 -52.115001 162.63448 -108.955755 219.47523
+2024.860       35.38884 -72.529339 143.30702 -129.657772 200.43545
+2024.880       42.88705 -65.571845 151.34594 -122.986515 208.76061
+2024.899       39.14005 -69.856873 148.13698 -127.556361 205.83647
+2024.918       33.67945 -75.852864 143.21177 -133.835770 201.19468
+2024.937       39.45132 -70.613787 149.51642 -128.878733 207.78137
+2024.956       45.89708 -64.698247 156.49240 -123.243874 215.03803
+2024.975       19.14250 -91.980509 130.26552 -150.805478 189.09048</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2022.88637919233 
+End = 2022.98220396988 
+Frequency = 52.1785714285714 
+     price
+[1,] 60.00
+[2,] 29.00
+[3,] 26.33
+[4,] 61.75
+[5,] 69.80
+[6,]  7.50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 269</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>bestfit_bp <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>{fit_bp <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_bp<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_bp<span class="sc">$</span>aicc)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    bestfit_bp <span class="ot">&lt;-</span> fit_bp</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_bp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: beans_pencil 
+Regression with ARIMA(2,0,0) errors 
+
+Coefficients:
+         ar1     ar2  intercept    S1-52   C1-52
+      0.5032  0.1369    37.0925  -4.8088  4.6616
+s.e.  0.0674  0.0675     2.5828   3.4934  3.4484
+
+sigma^2 = 237.4:  log likelihood = -1021.96
+AIC=2055.91   AICc=2056.23   BIC=2077.48
+
+Training set error measures:
+                      ME    RMSE      MAE       MPE     MAPE      MASE
+Training set -0.08241615 15.2497 11.36669 -19.25652 38.78967 0.6159286
+                    ACF1
+Training set -0.02513064</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_arima_bp <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_bp, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_bp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fc_arima_bp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80       Lo 95    Hi 95
+2023.001       25.29665  5.551678 45.04161 -4.90067708 55.49397
+2023.021       25.48017  3.376153 47.58419 -8.32500778 59.28535
+2023.040       27.78564  4.378151 51.19313 -8.01302606 63.58431
+2023.059       28.77525  4.789371 52.76113 -7.90798659 65.45849
+2023.078       29.42271  5.154846 53.69057 -7.69178423 66.53720
+2023.097       29.74992  5.346069 54.15378 -7.57255131 67.07240
+2023.116       29.90312  5.433015 54.37323 -7.52067754 67.32693
+2023.136       29.96034  5.457934 54.46274 -7.51285559 67.43353
+2023.155       29.98178  5.463609 54.49995 -7.51552614 67.47908
+2023.174       30.00884  5.482968 54.53471 -7.50024321 67.51792
+2023.193       30.07046  5.540828 54.60009 -7.44437412 67.58529
+2023.212       30.18622  5.654752 54.71769 -7.33142222 67.70386
+2023.231       30.36876  5.836397 54.90113 -7.15025280 67.88778
+2023.251       30.62545  6.092643 55.15825 -6.89423909 68.14513
+2023.270       30.95955  6.426532 55.49257 -6.56046354 68.47956
+2023.289       31.37112  6.837999 55.90424 -6.14905148 68.89130
+2023.308       31.85762  7.324446 56.39079 -5.66263198 69.37787
+2023.327       32.41439  7.881187 56.94758 -5.10590401 69.93468
+2023.346       33.03503  8.501816 57.56824 -4.48528182 70.55534
+2023.366       33.71172  9.178504 58.24494 -3.80859685 71.23204
+2023.385       34.43548  9.902264 58.96870 -3.08483852 71.95581
+2023.404       35.19640 10.663182 59.72962 -2.32392102 72.71673
+2023.423       35.98386 11.450636 60.51708 -1.53646710 73.50418
+2023.442       36.78672 12.253500 61.31995 -0.73360319 74.30705
+2023.461       37.59356 13.060341 62.12679  0.07323753 75.11389
+2023.480       38.39283 13.859609 62.92606  0.87250580 75.91316</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fit_bp1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>fit_bp2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>fit_bp3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>fit_bp4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>fit_bp5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>fit_bp6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>fit_bp7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>fit_bp8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>fit_bp9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>fit_bp10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>fit_bp11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>fit_bp12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(beans_pencil, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_bp1),<span class="fu">AIC</span>(fit_bp2),<span class="fu">AIC</span>(fit_bp3),<span class="fu">AIC</span>(fit_bp4),<span class="fu">AIC</span>(fit_bp5),<span class="fu">AIC</span>(fit_bp6),<span class="fu">AIC</span>(fit_bp7),<span class="fu">AIC</span>(fit_bp8),<span class="fu">AIC</span>(fit_bp9),<span class="fu">AIC</span>(fit_bp10),<span class="fu">AIC</span>(fit_bp11),<span class="fu">AIC</span>(fit_bp12))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_bp <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_bp2, <span class="at">xreg=</span><span class="fu">fourier</span>(beans_pencil, <span class="at">K=</span><span class="dv">2</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_bp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ncrabuya_beans-pencil_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_bp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80    Hi 80      Lo 95     Hi 95
+2023.001       25.74580   5.012037 46.47957  -5.963756  57.45536
+2023.021       25.62632   1.380739 49.87190 -11.454097  62.70674
+2023.040       18.11907  -8.893963 45.13211 -23.193801  59.43195
+2023.059       17.57199 -12.714265 47.85824 -28.746839  63.89081
+2023.078       16.44087 -16.563088 49.44484 -34.034330  66.91608
+2023.097       15.13106 -20.344594 50.60671 -39.124271  69.38639
+2023.116       14.95867 -22.879151 52.79649 -42.909283  72.82662
+2023.136       15.34411 -24.703923 55.39215 -45.904074  76.59230
+2023.155       16.23214 -25.906470 58.37076 -48.213304  80.67759
+2023.174       17.66575 -26.468159 61.79966 -49.831238  85.16274
+2023.193       19.50728 -26.534824 65.54938 -50.908042  89.92260
+2023.212       21.63579 -26.238154 69.50974 -51.581089  94.85267
+2023.231       23.93135 -25.707142 73.56984 -51.984171  99.84686
+2023.251       26.25568 -25.086712 77.59806 -52.265731 104.77708
+2023.270       28.47484 -24.516656 81.46634 -52.568660 109.51834
+2023.289       30.46611 -24.124715 85.05694 -53.023354 113.95558
+2023.308       32.12259 -24.022027 88.26721 -53.743193 117.98838
+2023.327       33.36035 -24.296198 91.01690 -54.817732 121.53844
+2023.346       34.12313 -25.006701 93.25297 -56.308145 124.55441
+2023.366       34.38516 -26.182130 94.95246 -58.244518 127.01485
+2023.385       34.15245 -27.818963 96.12387 -60.624650 128.92956
+2023.404       33.46216 -29.882264 96.80659 -63.414777 130.33910
+2023.423       32.38008 -32.308222 97.06837 -66.552138 131.31229
+2023.442       30.99645 -35.008358 97.00127 -69.949196 131.94211
+2023.461       29.42042 -37.875163 96.71599 -73.499291 132.34012
+2023.480       27.77321 -40.788842 96.33525 -77.083399 132.62981</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    ME    RMSE      MAE       MPE     MAPE      MASE
+Training set -0.426394 13.5433 10.29878 -12.22275 34.32857 0.5580617
+                    ACF1
+Training set -0.03793176</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_beans_pencil)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    ME    RMSE      MAE       MPE     MAPE      MASE
+Training set -0.426394 13.5433 10.29878 -12.22275 34.32857 0.5580617
+                    ACF1
+Training set -0.03793176</code></pre>
+</div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
