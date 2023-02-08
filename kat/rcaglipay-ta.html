@@ -411,19 +411,17 @@ Attaching package: 'zoo'</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tomato_avatar_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tomato_avatar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time Series:
-Start = 2022.90554414784 
-End = 2023.00136892539 
-Frequency = 52.1785714285714 
-     prices
-[1,]   58.4
-[2,]   37.0
-[3,]   38.5
-[4,]   37.5
-[5,]   19.5
-[6,]   12.5</code></pre>
+<pre><code># A tibble: 6 × 2
+  week       prices
+  &lt;chr&gt;       &lt;dbl&gt;
+1 2022-12-25   58.4
+2 2023-01-01   37  
+3 2023-01-08   38.5
+4 2023-01-15   37.5
+5 2023-01-22   19.5
+6 2023-01-29   12.5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(tomato_avatar_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -467,6 +465,123 @@ Training set error measures:
 Training set -0.177413 8.727674 6.296565 -12.04019 30.00346 0.2758461
                      ACF1
 Training set -0.002633318</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ta <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_ta, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rcaglipay-ta_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80    Hi 80       Lo 95    Hi 95
+2023.021      13.369471   2.006249 24.73269  -4.0090774 30.74802
+2023.040      11.244109  -3.609146 26.09736 -11.4719838 33.96020
+2023.059       8.702889  -7.824145 25.22992 -16.5730278 33.97881
+2023.078       7.632454 -10.547383 25.81229 -20.1712068 35.43612
+2023.097       7.102977 -12.484424 26.69038 -22.8533679 37.05932
+2023.116       6.818318 -13.767557 27.40419 -24.6650615 38.30170
+2023.136       6.975629 -14.325092 28.27635 -25.6010132 39.55227
+2023.155       7.542068 -14.257285 29.34142 -25.7971651 40.88130
+2023.174       8.414552 -13.699389 30.52849 -25.4058021 42.23491
+2023.193       9.551154 -12.738382 31.84069 -24.5377504 43.64006
+2023.212      10.915115 -11.456163 33.28639 -23.2988026 45.12903
+2023.231      12.457595  -9.939716 34.85491 -21.7961360 46.71133
+2023.251      14.134085  -8.265434 36.53360 -20.1230228 48.39119
+2023.270      15.906203  -6.496325 38.30873 -18.3555062 50.16791
+2023.289      17.738442  -4.684465 40.16135 -16.5544355 52.03132
+2023.308      19.598739  -2.870767 42.06825 -14.7654045 53.96288
+2023.327      21.459233  -1.085182 44.00365 -13.0194739 55.93794
+2023.346      23.295967   0.651499 45.94043 -11.3357579 57.92769
+2023.366      25.088566   2.325546 47.85159  -9.7244682 59.90160
+2023.385      26.820024   3.928329 49.71172  -8.1898024 61.82985
+2023.404      28.476376   5.454481 51.49827  -6.7325747 63.68533
+2023.423      30.046305   6.900363 53.19225  -5.3523584 65.44497
+2023.442      31.520755   8.262944 54.77857  -4.0489982 67.09051
+2023.461      32.892547   9.539060 56.24603  -2.8235288 68.60862
+2023.480      34.156013  10.725023 57.58700  -1.6785941 69.99062
+2023.500      35.306670  11.816481 58.79686  -0.6184737 71.23181</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit_ta1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fit_ta2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>fit_ta3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>fit_ta4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit_ta5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>fit_ta6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>fit_ta7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>fit_ta8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>fit_ta9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>fit_ta10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>fit_ta11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>fit_ta12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(tomato_avatar_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_ta1),<span class="fu">AIC</span>(fit_ta2),<span class="fu">AIC</span>(fit_ta3),<span class="fu">AIC</span>(fit_ta4),<span class="fu">AIC</span>(fit_ta5),<span class="fu">AIC</span>(fit_ta6),<span class="fu">AIC</span>(fit_ta7),<span class="fu">AIC</span>(fit_ta8),<span class="fu">AIC</span>(fit_ta9),<span class="fu">AIC</span>(fit_ta10),<span class="fu">AIC</span>(fit_ta11),<span class="fu">AIC</span>(fit_ta12))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rcaglipay-ta_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ta <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_ta1, <span class="at">xreg=</span><span class="fu">fourier</span>(tomato_avatar_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="rcaglipay-ta_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80    Hi 80       Lo 95    Hi 95
+2023.021      13.369471   2.006249 24.73269  -4.0090774 30.74802
+2023.040      11.244109  -3.609146 26.09736 -11.4719838 33.96020
+2023.059       8.702889  -7.824145 25.22992 -16.5730278 33.97881
+2023.078       7.632454 -10.547383 25.81229 -20.1712068 35.43612
+2023.097       7.102977 -12.484424 26.69038 -22.8533679 37.05932
+2023.116       6.818318 -13.767557 27.40419 -24.6650615 38.30170
+2023.136       6.975629 -14.325092 28.27635 -25.6010132 39.55227
+2023.155       7.542068 -14.257285 29.34142 -25.7971651 40.88130
+2023.174       8.414552 -13.699389 30.52849 -25.4058021 42.23491
+2023.193       9.551154 -12.738382 31.84069 -24.5377504 43.64006
+2023.212      10.915115 -11.456163 33.28639 -23.2988026 45.12903
+2023.231      12.457595  -9.939716 34.85491 -21.7961360 46.71133
+2023.251      14.134085  -8.265434 36.53360 -20.1230228 48.39119
+2023.270      15.906203  -6.496325 38.30873 -18.3555062 50.16791
+2023.289      17.738442  -4.684465 40.16135 -16.5544355 52.03132
+2023.308      19.598739  -2.870767 42.06825 -14.7654045 53.96288
+2023.327      21.459233  -1.085182 44.00365 -13.0194739 55.93794
+2023.346      23.295967   0.651499 45.94043 -11.3357579 57.92769
+2023.366      25.088566   2.325546 47.85159  -9.7244682 59.90160
+2023.385      26.820024   3.928329 49.71172  -8.1898024 61.82985
+2023.404      28.476376   5.454481 51.49827  -6.7325747 63.68533
+2023.423      30.046305   6.900363 53.19225  -5.3523584 65.44497
+2023.442      31.520755   8.262944 54.77857  -4.0489982 67.09051
+2023.461      32.892547   9.539060 56.24603  -2.8235288 68.60862
+2023.480      34.156013  10.725023 57.58700  -1.6785941 69.99062
+2023.500      35.306670  11.816481 58.79686  -0.6184737 71.23181</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.2675684 8.092948 5.887438 -7.978339 28.85456 0.2579227
+                    ACF1
+Training set -0.01336067</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.2675684 8.092948 5.887438 -7.978339 28.85456 0.2579227
+                    ACF1
+Training set -0.01336067</code></pre>
 </div>
 </div>
 </section>

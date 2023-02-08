@@ -51,7 +51,7 @@ fc_ta
 ```
 
 ```{r}
-tail(tomato_avatar_ts)
+tail(tomato_avatar)
 min(tomato_avatar_ts)
 max(tomato_avatar_ts)
 which.min(tomato_avatar_ts)
@@ -70,4 +70,50 @@ for(i in 1:25)
 
 ```{r}
 summary(bestfit_ta)
+```
+
+```{r}
+fc_arima_ta <- forecast(bestfit_ta, xreg=fourier(tomato_avatar_ts, K=1, h=26))
+plot(fc_arima_ta)
+```
+
+```{r}
+fc_arima_ta
+```
+
+```{r}
+fit_ta1 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=1), seasonal=FALSE)
+fit_ta2 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=2), seasonal=FALSE)
+fit_ta3 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=3), seasonal=FALSE)
+fit_ta4 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=4), seasonal=FALSE)
+fit_ta5 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=5), seasonal=FALSE)
+fit_ta6 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=6), seasonal=FALSE)
+fit_ta7 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=7), seasonal=FALSE)
+fit_ta8 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=8), seasonal=FALSE)
+fit_ta9 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=9), seasonal=FALSE)
+fit_ta10 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=10), seasonal=FALSE)
+fit_ta11 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=11), seasonal=FALSE)
+fit_ta12 <- auto.arima(tomato_avatar_ts, xreg=fourier(tomato_avatar_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ta1),AIC(fit_ta2),AIC(fit_ta3),AIC(fit_ta4),AIC(fit_ta5),AIC(fit_ta6),AIC(fit_ta7),AIC(fit_ta8),AIC(fit_ta9),AIC(fit_ta10),AIC(fit_ta11),AIC(fit_ta12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_ta <- forecast(fit_ta1, xreg=fourier(tomato_avatar_ts, K=1, h=26))
+plot(fc_arima_man_ta)
+```
+
+```{r}
+fc_arima_man_ta
+```
+
+```{r}
+accuracy(fc_ta)
+```
+
+```{r}
+accuracy(fc_ta)
 ```
