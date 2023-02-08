@@ -7,6 +7,14 @@ editor: visual
 
 ## BACKGROUND
 
+The pricing of sayote, also known as chayote, can vary depending on a number of factors. Sayote is a relatively low-cost vegetable, but the prices can fluctuate due to various reasons. Seasonality is one of the main factors that can influence the price of sayote. During peak growing seasons, prices may be lower due to an abundance of supply. However, during off-seasons, prices may be higher as the supply is limited. Another factor that can affect the pricing of sayote is location. Prices may vary depending on where the sayote is grown and sold. For example, prices in a rural area may be lower than prices in a city.
+
+Supply and demand is another important factor that can affect the pricing of sayote. The price of sayote is determined by the balance of supply and demand. If there is a high demand for sayote and a low supply, prices may be higher. Conversely, if there is a low demand and a high supply, prices may be lower. Additionally, the cost of production can affect the final price of sayote. The cost of growing and harvesting sayote can vary depending on factors such as labor costs and the cost of inputs like fertilizer and water.
+
+Quality of the sayote is also an important factor in determining the price. Sayote that is larger, more uniform in shape, and free from blemishes will generally command a higher price than sayote that is smaller or has imperfections. The quality of the sayote can also be affected by factors such as weather conditions, disease and pest infestations, and storage conditions.
+
+In conclusion, the price of sayote can vary depending on a number of factors such as seasonality, location, supply and demand, production costs and quality. The prices of sayote can fluctuate depending on the region, season, and the form of sayote (fresh, canned, frozen and dehydrated) and it's important to take these factors into account when determining the price of sayote.
+
 ```{r}
 library(forecast)
 library(ggplot2)
@@ -53,19 +61,148 @@ fc_sayote %>%
   autoplot()
 ```
 
-## Running Cod
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+fc_sayote
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+tail(sayote_ts)
+min(sayote_ts)
+max(sayote_ts)
+which.min(sayote_ts)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+bestfit_sayote <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_sayote <- auto.arima(sayote, xreg=fourier(sayote, K=i), seasonal=FALSE)
+  if(fit_sayote$aicc < bestfit_sayote$aicc)
+    bestfit_sayote <- fit_sayote
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_sayote)
+```
+
+```{r}
+fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote, K=2, h=26))
+plot(fc_arima_sayote)
+```
+
+```{r}
+fc_arima_sayote
+```
+
+```{r}
+fit_sayote_ts1 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=1), seasonal=FALSE)
+fit_sayote_ts2 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=2), seasonal=FALSE)
+fit_sayote_ts3 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=3), seasonal=FALSE)
+fit_sayote_ts4 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=4), seasonal=FALSE)
+fit_sayote_ts5 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=5), seasonal=FALSE)
+fit_sayote_ts6 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=6), seasonal=FALSE)
+fit_sayote_ts7 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=7), seasonal=FALSE)
+fit_sayote_ts8 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=8), seasonal=FALSE)
+fit_sayote_ts9 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=9), seasonal=FALSE)
+fit_sayote_ts10 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=10), seasonal=FALSE)
+fit_sayote_ts11 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=11), seasonal=FALSE)
+fit_sayote_ts12 <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_sayote_ts1),AIC(fit_sayote_ts2),AIC(fit_sayote_ts3),AIC(fit_sayote_ts4),AIC(fit_sayote_ts5),AIC(fit_sayote_ts6),AIC(fit_sayote_ts7),AIC(fit_sayote_ts8),AIC(fit_sayote_ts9),AIC(fit_sayote_ts10),AIC(fit_sayote_ts11),AIC(fit_sayote_ts12))
+plot(aics)
+```
+
+```{r}
+fc_sayote_ts1 <- forecast(fit_sayote_ts1, xreg=fourier(sayote_ts, K=1, h=26))
+plot(fc_sayote_ts1)
+```
+
+```{r}
+fc_sayote_ts1
+```
+
+```{r}
+accuracy(fc_sayote_ts)
+```
+
+```{r}
+accuracy(fc_arima_sayote_ts)
+```
+
+```{r}
+accuracy(fc_sayote_ts1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
