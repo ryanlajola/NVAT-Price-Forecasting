@@ -76,7 +76,7 @@ which.min(sayote_ts)
 bestfit_sayote <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_sayote <- auto.arima(sayote, xreg=fourier(sayote, K=i), seasonal=FALSE)
+  fit_sayote <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=i), seasonal=FALSE)
   if(fit_sayote$aicc < bestfit_sayote$aicc)
     bestfit_sayote <- fit_sayote
   else break;
@@ -88,7 +88,7 @@ summary(bestfit_sayote)
 ```
 
 ```{r}
-fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote, K=2, h=26))
+fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote_ts, K=1, h=26))
 plot(fc_arima_sayote)
 ```
 
@@ -117,92 +117,22 @@ plot(aics)
 ```
 
 ```{r}
-fc_sayote_ts1 <- forecast(fit_sayote_ts1, xreg=fourier(sayote_ts, K=1, h=26))
-plot(fc_sayote_ts1)
+fc_arima_man_sayote <- forecast(fit_sayote_ts5, xreg=fourier(sayote_ts, K=5, h=26))
+plot(fc_arima_man_sayote)
 ```
 
 ```{r}
-fc_sayote_ts1
+fc_arima_man_sayote
 ```
 
 ```{r}
-accuracy(fc_sayote_ts)
+accuracy(fc_sayote)
 ```
 
 ```{r}
-accuracy(fc_arima_sayote_ts)
+accuracy(fc_arima_man_sayote)
 ```
 
 ```{r}
-accuracy(fc_sayote_ts1)
+accuracy(fc_arima_sayote)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
