@@ -7,6 +7,14 @@ editor: visual
 
 ## BACKGROUND
 
+The pricing of sayote, also known as chayote, can vary depending on a number of factors. Sayote is a relatively low-cost vegetable, but the prices can fluctuate due to various reasons. Seasonality is one of the main factors that can influence the price of sayote. During peak growing seasons, prices may be lower due to an abundance of supply. However, during off-seasons, prices may be higher as the supply is limited. Another factor that can affect the pricing of sayote is location. Prices may vary depending on where the sayote is grown and sold. For example, prices in a rural area may be lower than prices in a city.
+
+Supply and demand is another important factor that can affect the pricing of sayote. The price of sayote is determined by the balance of supply and demand. If there is a high demand for sayote and a low supply, prices may be higher. Conversely, if there is a low demand and a high supply, prices may be lower. Additionally, the cost of production can affect the final price of sayote. The cost of growing and harvesting sayote can vary depending on factors such as labor costs and the cost of inputs like fertilizer and water.
+
+Quality of the sayote is also an important factor in determining the price. Sayote that is larger, more uniform in shape, and free from blemishes will generally command a higher price than sayote that is smaller or has imperfections. The quality of the sayote can also be affected by factors such as weather conditions, disease and pest infestations, and storage conditions.
+
+In conclusion, the price of sayote can vary depending on a number of factors such as seasonality, location, supply and demand, production costs and quality. The prices of sayote can fluctuate depending on the region, season, and the form of sayote (fresh, canned, frozen and dehydrated) and it's important to take these factors into account when determining the price of sayote.
+
 ```{r}
 library(forecast)
 library(ggplot2)
@@ -54,7 +62,11 @@ fc_sayote %>%
 ```
 
 ```{r}
-tail(sayote_)
+fc_sayote
+```
+
+```{r}
+tail(sayote_ts)
 min(sayote_ts)
 max(sayote_ts)
 which.min(sayote_ts)
@@ -64,7 +76,7 @@ which.min(sayote_ts)
 bestfit_sayote <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_sayote <- auto.arima(sayote_ts, xreg=fourier(sayote_ts, K=i), seasonal=FALSE)
+  fit_sayote <- auto.arima(sayote, xreg=fourier(sayote, K=i), seasonal=FALSE)
   if(fit_sayote$aicc < bestfit_sayote$aicc)
     bestfit_sayote <- fit_sayote
   else break;
@@ -72,12 +84,11 @@ for(i in 1:25)
 ```
 
 ```{r}
-
 summary(bestfit_sayote)
 ```
 
 ```{r}
-fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote_ts, K=1, h=26))
+fc_arima_sayote <- forecast(bestfit_sayote, xreg=fourier(sayote, K=2, h=26))
 plot(fc_arima_sayote)
 ```
 
@@ -115,13 +126,83 @@ fc_sayote_ts1
 ```
 
 ```{r}
-accuracy(fc_sayote_ts1)
+accuracy(fc_sayote_ts)
 ```
 
 ```{r}
-accuracy(fc_arima_sayote)
+accuracy(fc_arima_sayote_ts)
 ```
 
 ```{r}
 accuracy(fc_sayote_ts1)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

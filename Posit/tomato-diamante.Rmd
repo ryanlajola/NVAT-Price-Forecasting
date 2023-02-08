@@ -1,0 +1,58 @@
+---
+title: "Tomato(Diamante)"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+```{r}
+tomato_diamante <- read_csv("~/R/NVAT-Price-Forecasting/CSV/tomato-diamante.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tomato_diamante_ts <- ts(tomato_diamante[,2], freq=365.25/7, start=2017+302/365.25)
+tomato_diamante_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(tomato_diamante_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+td_locf_ts <- na.locf(tomato_diamante_ts)
+mstl(td_locf_ts[,1]) %>%
+  autoplot()
+```
+
+```{r}
+autoplot(tomato_diamante_ts , series="Data") +
+  autolayer(td_decomp$seasonal, series="Season") +
+  xlab("Week") + ylab("Price") +
+  ggtitle("Tomato(Diamante) Weekly Prices") +
+  scale_colour_manual(values=c("Data"="black","Season"="red"),
+                       breaks=c("Data","Season"))
+```
+
+```{r}
+training_td <- subset(tomato_diamante_ts, end=length(tomato_diamante_ts)-1)
+test_td <- subset(tomato_diamante_ts, start=length(tomato_diamante_ts)-1)
+fc_training_td <- forecast(training_td)
+fc_training_td %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_td)
+```
+
+```{r}
+autoplot(fc_training_td)
+```
+
+```{r}
+fc_td<-forecast(tomato_diamante_ts)
+fc_td %>%
+  forecast(h=26) %>%
+  autoplot()
+```

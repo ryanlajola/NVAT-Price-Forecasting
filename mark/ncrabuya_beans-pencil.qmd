@@ -21,21 +21,28 @@ library(readr)
 library(zoo)
 ```
 
+# Beans Pencil
+
+
 ```{r}
-beans_pencil <- read_csv("/cloud/project/CSV/beans-pencil.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-beans_pencil <- ts(beans_pencil[,2], freq=365.25/7, start=2017+309/365.25)
+beans_pencil_ts <- read_csv("/cloud/project/CSV/beans-pencil.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+beans_pencil <- ts(beans_pencil_ts[,2], freq=365.25/7, start=2017+309/365.25)
 beans_pencil %>%
   autoplot()
 ```
 
-```{r}
-fc_training_bp
 ```
 
+# Beans pencil
 ```{r}
 bp_decomp <- decompose(na.locf(beans_pencil), type="additive")
 autoplot(bp_decomp)
 ```
+# First Model
+
+## Beans Pencil
+
+
 
 ```{r}
 training_bp <- subset(beans_pencil, end=length(beans_pencil)-8)
@@ -46,23 +53,90 @@ fc_training_bp %>%
   autoplot() +autolayer(test_bp)
 ```
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+fc_training_bp
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+fc_beans_pencil<-forecast(beans_pencil)
+fc_beans_pencil %>%
+  forecast(h=100) %>%
+  autoplot()
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed)
+```{r}
+fc_beans_pencil
+```
+
+```{r}
+tail(beans_pencil)
+min(beans_pencil)
+max(beans_pencil)
+which.min(beans_pencil)
+```
+
+```{r}
+bestfit_bp <- list(aicc=Inf)
+for(i in 1:25)
+{fit_bp <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=i), seasonal=FALSE)
+  if(fit_bp$aicc < bestfit_bp$aicc)
+    bestfit_bp <- fit_bp
+  else break}
+```
+
+
+
+
+```{r}
+summary(bestfit_bp)
+```
+```{r}
+fc_arima_bp <- forecast(bestfit_bp, xreg=fourier(beans_pencil, K=1, h=26))
+plot(fc_arima_bp)
+```
+
+```{r}
+fc_arima_bp
+```
+
+```{r}
+fit_bp1 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=1), seasonal=FALSE)
+fit_bp2 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=2), seasonal=FALSE)
+fit_bp3 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=3), seasonal=FALSE)
+fit_bp4 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=4), seasonal=FALSE)
+fit_bp5 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=5), seasonal=FALSE)
+fit_bp6 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=6), seasonal=FALSE)
+fit_bp7 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=7), seasonal=FALSE)
+fit_bp8 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=8), seasonal=FALSE)
+fit_bp9 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=9), seasonal=FALSE)
+fit_bp10 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=10), seasonal=FALSE)
+fit_bp11 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=11), seasonal=FALSE)
+fit_bp12 <- auto.arima(beans_pencil, xreg=fourier(beans_pencil, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_bp1),AIC(fit_bp2),AIC(fit_bp3),AIC(fit_bp4),AIC(fit_bp5),AIC(fit_bp6),AIC(fit_bp7),AIC(fit_bp8),AIC(fit_bp9),AIC(fit_bp10),AIC(fit_bp11),AIC(fit_bp12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_bp <- forecast(fit_bp2, xreg=fourier(beans_pencil, K=2, h=26))
+plot(fc_arima_man_bp)
+```
+
+```{r}
+fc_arima_man_bp
+```
+
+```{r}
+accuracy(fc_beans_pencil)
+```
+
+
+
+```{r}
+accuracy(fc_beans_pencil)
+```
+
+
+##

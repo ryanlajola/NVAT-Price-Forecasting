@@ -23,7 +23,7 @@ squash_suprema_ts %>%
 
 ```{r}
 ss_decomp <- decompose(na.locf(squash_suprema_ts), type="additive")
-autoplot(ss
+autoplot(squash_suprema_ts)
 ```
 
 ```{r}
@@ -35,7 +35,7 @@ fc_training_ss %>%
   autoplot() +autolayer(test_ss)
 ```
 
-```{_decomp)}
+``` {_decomp)}
 ```
 
 ```{r}
@@ -53,24 +53,28 @@ fc_ss %>%
 tail(squash_suprema_ts)
 min(squash_suprema_ts)
 max(squash_suprema_ts)
-which.min(squash_suprema_ts
+which.min(squash_suprema_ts)
 ```
 
 ```{r}
 bestfit_ss <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_ss <- auto.arima(squash_suprema_ts, xreg=fourier(,squash_suprema_ts
+  fit_ss <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=i), seasonal=FALSE)
+  if(fit_ss$aicc < bestfit_ss$aicc)
+    bestfit_ss <- fit_ss
+  else break;
+} 
 ```
 
-```{K=i), seasonal=FALSE)}
+``` {K="i)," seasonal="FALSE)"}
   if(fit_ss$aicc < bestfit_ss$aicc)
     bestfit_ss <- fit_ss
   else break;
 }
 ```
 
-```{)}
+``` {)}
 ```
 
 ```{r}
@@ -78,5 +82,53 @@ summary(bestfit_ss)
 ```
 
 ```{r}
-summary(bestfit_tugo)
+summary(bestfit_ss)
 ```
+
+```{r}
+fc_arima_ss <- forecast(bestfit_ss, xreg=fourier(squash_suprema_ts, K=1, h=26))
+plot(fc_arima_ss)
+```
+
+```{r}
+fc_arima_ss
+```
+
+```{r}
+fit_ss1 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=1), seasonal=FALSE)
+fit_ss2 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=2), seasonal=FALSE)
+fit_ss3 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=3), seasonal=FALSE)
+fit_ss4 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=4), seasonal=FALSE)
+fit_ss5 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=5), seasonal=FALSE)
+fit_ss6 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=6), seasonal=FALSE)
+fit_ss7 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=7), seasonal=FALSE)
+fit_ss8 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=8), seasonal=FALSE)
+fit_ss9 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=9), seasonal=FALSE)
+fit_ss10 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=10), seasonal=FALSE)
+fit_ss11 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=11), seasonal=FALSE)
+fit_ss12 <- auto.arima(squash_suprema_ts, xreg=fourier(squash_suprema_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ss1),AIC(fit_ss2),AIC(fit_ss3),AIC(fit_ss4),AIC(fit_ss5),AIC(fit_ss6),AIC(fit_ss7),AIC(fit_ss8),AIC(fit_ss9),AIC(fit_ss10),AIC(fit_ss11),AIC(fit_ss12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_ss <- forecast(fit_ss1, xreg=fourier(squash_suprema_ts, K=1, h=26))
+plot(fc_arima_man_ss)
+```
+
+```{r}
+fc_arima_man_ss
+```
+
+```{r}
+accuracy(fc_ss)
+```
+
+```{r}
+accuracy(fc_arima_man_ss)
+```
+
+\`\`\`
