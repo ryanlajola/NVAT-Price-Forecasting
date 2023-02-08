@@ -131,6 +131,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="background" class="level1">
 <h1>Background</h1>
+</section>
+<section id="carrots" class="level1">
+<h1>CARROTS</h1>
+<p>Farmers that raise cash or dairy product, may have big markets with long history. They make use of current organizations to execute the marketing task for them, or they may create group, cooperative and promote their goods together. Fruit on a small scale and vegetable producers typically have more trouble locating established, thus they typically create marketing system created for their specific circumstances. Seasonal production of vegetables, but the market requires items all year long. This was used for decades. Problem of balancing consumer demand and product availability. Some farmers generate profits by planting first and then looking for market, but this extremely risky for vegetables growers (Cabezas G., 2022)</p>
+<p>Price and quality are synonymous in fruit and vegetables production. Unfortunately, it is no always easy to know what is meant by “high quality” and quality judgement often varies from year to year. Carrots are increasing in consumption and production and grown on a large and expanding scale. The market for the crop is unique in so far as the fresh and processing trade share the supply, and other marketing is interrelated. Demand expectations for carrots are goods, both for the fresh and processed commodity, and new developments in prepacking and processed packs will emerge as incomes increase (Ramos MR., 2021)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the forecast package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -534,8 +539,8 @@ Training set -0.0525297</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_carrot <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_carrot5, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">5</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_carrot <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_carrot1, <span class="at">xreg=</span><span class="fu">fourier</span>(carrot_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_carrot )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="bhdizon-carrot_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -543,33 +548,33 @@ Training set -0.0525297</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_carrot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Point Forecast        Lo 80    Hi 80       Lo 95    Hi 95
-2022.733      23.650380  13.76911484 33.53164   8.5382892 38.76247
-2022.752      24.698070  10.72385158 38.67229   3.3263471 46.06979
-2022.771      25.331746   8.21689300 42.44660  -0.8431627 51.50665
-2022.791      25.428350   5.66582003 45.19088  -4.7958312 55.65253
-2022.810      25.015848   2.92066817 47.11103  -8.7758134 58.80751
-2022.829      24.191270  -0.01278656 48.39533 -12.8256402 61.20818
-2022.848      23.037712  -3.10565754 49.18108 -16.9451212 63.02054
-2022.867      21.579067  -6.36937013 49.52750 -21.1643791 64.32251
-2022.886      19.790781  -9.85301313 49.43458 -25.5454899 65.12705
-2022.906      17.657668 -13.58963508 48.90497 -30.1309580 65.44629
-2022.925      15.247120 -17.52532755 48.01957 -34.8740134 65.36825
-2022.944      12.757148 -21.47255748 46.98685 -39.5926689 65.10696
-2022.963      10.507480 -25.11992637 46.13489 -43.9799363 64.99490
-2022.982       8.865303 -28.10700401 45.83761 -47.6789613 65.40957
-2023.001       8.125996 -30.14397801 46.39597 -50.4028784 66.65487
-2023.021       8.392016 -31.13304325 47.91707 -52.0563457 68.84038
-2023.040       9.500152 -31.24134633 50.24165 -52.8085928 71.80890
-2023.059      11.034783 -30.88787264 52.95744 -53.0803862 75.14995
-2023.078      12.435934 -30.63550085 55.50737 -53.4361410 78.30801
-2023.097      13.175658 -31.01470141 57.36602 -54.4076646 80.75898
-2023.116      12.947502 -32.33414227 58.22915 -56.3047965 82.19980
-2023.136      11.802726 -34.54451428 58.14997 -59.0792611 82.68471
-2023.155      10.179111 -37.20977041 57.56799 -62.2959287 82.65415
-2023.174       8.800747 -39.60736673 57.20886 -65.2330740 82.83457
-2023.193       8.470111 -40.93621256 57.87644 -67.0903406 84.03056
-2023.212       9.812428 -40.57233362 60.19719 -67.2444154 86.86927</code></pre>
+<pre><code>         Point Forecast       Lo 80    Hi 80      Lo 95    Hi 95
+2022.733      21.103323  10.9971688 31.20948   5.647294 36.55935
+2022.752      19.652759   5.3604987 33.94502  -2.205367 41.51089
+2022.771      18.169316   0.6649435 35.67369  -8.601312 44.93994
+2022.791      16.674479  -3.5378301 36.88679 -14.237580 47.58654
+2022.810      15.189896  -7.4081526 37.78794 -19.370837 49.75063
+2022.829      13.737068 -11.0178535 38.49199 -24.122317 51.59645
+2022.848      12.337037 -14.4013344 39.07541 -28.555773 53.22985
+2022.867      11.010078 -17.5744430 39.59460 -32.706175 54.72633
+2022.886       9.775410 -20.5430530 40.09387 -36.592678 56.14350
+2022.906       8.650914 -23.3075520 40.60938 -40.225342 57.52717
+2022.925       7.652876 -25.8654462 41.17120 -43.608974 58.91473
+2022.944       6.795750 -28.2129959 41.80450 -46.745506 60.33701
+2022.963       6.091949 -30.3463085 42.53021 -49.635557 61.81946
+2022.982       5.551667 -32.2620998 43.36543 -52.279499 63.38283
+2023.001       5.182729 -33.9582389 44.32370 -54.678216 65.04367
+2023.021       4.990477 -35.4341409 45.41509 -56.833641 66.81459
+2023.040       4.977696 -36.6910465 46.64644 -58.749146 68.70454
+2023.059       5.144570 -37.7322114 48.02135 -60.429809 70.71895
+2023.078       5.488684 -38.5630212 49.54039 -61.882586 72.85995
+2023.097       6.005054 -39.1910424 51.20115 -63.116411 75.12652
+2023.116       6.686201 -39.6260169 52.99842 -64.142224 77.51463
+2023.136       7.522259 -39.8798064 54.92433 -64.972944 80.01746
+2023.155       8.501122 -39.9662918 56.96854 -65.623391 82.62563
+2023.174       9.608612 -39.9012313 59.11845 -66.110159 85.32738
+2023.193      10.828689 -39.7020828 61.35946 -66.451458 88.10884
+2023.212      12.143684 -39.3877943 63.67516 -66.666911 90.95428</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -584,10 +589,10 @@ Training set -0.006844941</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_carrot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                      ME    RMSE      MAE       MPE     MAPE      MASE
-Training set -0.06950523 7.54292 5.506625 -2.927501 19.22272 0.3369037
+<pre><code>                     ME     RMSE      MAE       MPE     MAPE      MASE
+Training set -0.1101321 7.839532 5.601782 -3.447729 18.85922 0.3427255
                    ACF1
-Training set -0.1275733</code></pre>
+Training set -0.0525297</code></pre>
 </div>
 </div>
 </section>

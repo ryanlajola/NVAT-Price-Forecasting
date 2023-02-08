@@ -7,6 +7,12 @@ editor: visual
 
 # Background
 
+# CARROTS
+
+ Farmers that raise cash or dairy product, may have big markets with  long history. They make use of current organizations to execute the marketing task for them, or they may create group, cooperative and promote their goods together. Fruit on a small scale and vegetable producers typically have more trouble locating established, thus they typically create marketing system created for their specific circumstances. Seasonal production of vegetables, but the market requires items all year long. This was used for decades. Problem of balancing consumer demand and product availability. Some farmers generate profits by planting first and then looking for market, but this extremely risky for vegetables growers (Cabezas G., 2022)
+     
+   Price and quality are synonymous in fruit and vegetables production. Unfortunately, it is no always easy to know what is meant by “high quality” and quality judgement often varies from year to year. Carrots are increasing in consumption and production and grown on a large and expanding scale. The market for the crop is unique in so far as the fresh and processing trade share the supply, and other marketing is interrelated. Demand expectations for carrots are goods, both for the fresh and processed commodity, and new developments in prepacking and processed packs will emerge as incomes increase (Ramos MR., 2021)
+
 ```{r}
 # load the forecast package
 library(forecast)
@@ -108,13 +114,14 @@ plot(aics)
 ```
 
 ```{r}
-fc_arima_man_carrot <- forecast(fit_carrot5, xreg=fourier(carrot_ts, K=5, h=26))
+fc_arima_man_carrot <- forecast(fit_carrot1, xreg=fourier(carrot_ts, K=1, h=26))
 plot(fc_arima_man_carrot )
 ```
 
 ```{r}
 fc_arima_man_carrot
 ```
+
 
 ```{r}
 accuracy(fc_carrot)
